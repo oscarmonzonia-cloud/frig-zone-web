@@ -982,13 +982,19 @@
         chatInput.value = "";
         chatHistory.push({ sender: "user", text: userMsg });
 
+        // Indicador moderno de escritura (burbuja con puntos animados)
         const loadingWrapper = document.createElement("div");
         loadingWrapper.id = "botLoading";
-        loadingWrapper.className = "flex gap-2";
+        loadingWrapper.className = "flex gap-2 items-center";
         loadingWrapper.innerHTML = `
-          <div class="bg-slate-800 border border-slate-700 p-2.5 rounded-2xl rounded-tl-none text-slate-400 text-xs italic">
-            Analizando falla técnica...
+          <div class="bg-slate-800 border border-slate-700 px-4 py-3 rounded-2xl rounded-tl-none flex items-center gap-2">
+            <span class="w-1.5 h-1.5 rounded-full bg-accent animate-bounce" style="animation-delay: 0ms;"></span>
+            <span class="w-1.5 h-1.5 rounded-full bg-accent animate-bounce" style="animation-delay: 150ms;"></span>
+            <span class="w-1.5 h-1.5 rounded-full bg-accent animate-bounce" style="animation-delay: 300ms;"></span>
+            <span class="text-[11px] text-slate-400 font-medium ml-1">Escribiendo...</span>
           </div>`;
+        chatMessages.appendChild(loadingWrapper);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
         chatMessages.appendChild(loadingWrapper);
         chatMessages.scrollTop = chatMessages.scrollHeight;
 
