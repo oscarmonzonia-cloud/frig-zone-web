@@ -5,6 +5,18 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-C8XYWFV8DD"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-C8XYWFV8DD');
+  </script>
+
+  <!-- Google Search Console verification -->
+  <meta name="google-site-verification" content="52bK2d6vjG7qC-u--gmnVXA-Z4sWoXHROwc0BaWrZFM" />
+
   <!-- SEO Técnico y Metadatos -->
   <title>Frig Zone | Soluciones en Climatización & Refrigeración CABA</title>
   <meta name="description"
@@ -23,15 +35,14 @@
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+
   <style>
     :root {
       --brand-h: 200;
-      /* tono cyan */
       --brand-s: 80%;
       --brand-l: 45%;
       --brand: hsl(var(--brand-h), var(--brand-s), var(--brand-l));
       --accent: #06b6d4;
-      /* ya usado, pero para consistencia */
       --font-primary: 'Inter', system-ui, sans-serif;
     }
 
@@ -47,6 +58,7 @@
       background-color: hsl(var(--brand-h), var(--brand-s), calc(var(--brand-l) - 10%)) !important;
     }
   </style>
+
   <script>
     tailwind.config = {
       theme: {
@@ -77,7 +89,7 @@
     "@context": "https://schema.org",
     "@type": "HVACBusiness",
     "name": "Frig Zone Climatización & Refrigeración",
-    "image": "https://frigzone.github.io/logo.png",
+    "image": "https://oscarmonzonia-cloud.github.io/frig-zone-web/logo.png",
     "telephone": "+5491173719821",
     "priceRange": "$$",
     "address": {
@@ -102,17 +114,6 @@
     ]
   }
   </script>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-C8XYWFV8DD"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'G-C8XYWFV8DD');
-</script>
-<!-- Google Search Console verification -->
-<meta name="google-site-verification" content="52bK2d6vjG7qC-u--gmnVXA-Z4sWoXHROwc0BaWrZFM" />
-</head>
 </head>
 
 <body class="bg-slate-900 text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-white">
@@ -120,6 +121,7 @@
   <!-- Header / Navbar -->
   <header class="fixed top-0 left-0 right-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 h-20 flex items-center justify-between">
+
       <!-- Logo -->
       <a href="#" class="flex items-center gap-3 group">
         <div
@@ -133,32 +135,22 @@
         </div>
       </a>
 
-      <!-- Navegación Escritorio -->
+      <!-- Botón Hamburguesa Móvil -->
       <button id="navToggle" class="md:hidden flex items-center p-2 text-slate-300 hover:text-accent transition-colors"
         aria-label="Abrir menú">
         <i data-lucide="menu" class="w-6 h-6"></i>
       </button>
+
+      <!-- Navegación Escritorio -->
       <nav class="hidden md:flex gap-6 text-sm font-medium text-slate-300">
-  <a href="#servicios" class="hover:text-accent transition-colors">Servicios</a>
-  <a href="#diagnostico" class="hover:text-accent transition-colors">Pre-Diagnóstico</a>
-  <a href="#proceso" class="hover:text-accent transition-colors">Norma Técnica</a>
-  <a href="#redes" class="hover:text-accent transition-colors">Trabajos Reales</a>
-</nav>
-<div id="mobileDrawer" class="fixed inset-y-0 left-0 w-64 bg-slate-900 border-r border-slate-800 shadow-xl transform -translate-x-full transition-transform duration-300 z-50">
+        <a href="#servicios" class="hover:text-accent transition-colors">Servicios</a>
+        <a href="#diagnostico" class="hover:text-accent transition-colors">Pre-Diagnóstico</a>
+        <a href="#proceso" class="hover:text-accent transition-colors">Norma Técnica</a>
+        <a href="#redes" class="hover:text-accent transition-colors">Trabajos Reales</a>
+      </nav>
 
-        <button id="navClose" class="absolute top-4 right-4 text-slate-300 hover:text-accent">
-          <i data-lucide="x" class="w-6 h-6"></i>
-        </button>
-        <nav class="flex flex-col gap-4 mt-12 px-4 text-sm font-medium text-slate-300">
-          <a href="#servicios" class="hover:text-accent transition-colors">Servicios</a>
-          <a href="#diagnostico" class="hover:text-accent transition-colors">Pre-Diagnóstico</a>
-          <a href="#proceso" class="hover:text-accent transition-colors">Norma Técnica</a>
-          <a href="#redes" class="hover:text-accent transition-colors">Trabajos Reales</a>
-        </nav>
-      </div>
-
-      <!-- Botón CTA Rápido -->
-      <div class="flex items-center gap-3">
+      <!-- Botón CTA Header -->
+      <div class="hidden sm:flex items-center gap-3">
         <a id="navWhatsappBtn"
           href="https://wa.me/5491173719821?text=Hola%20Frig%20Zone,%20necesito%20una%20consulta%20técnica"
           target="_blank" rel="noopener noreferrer"
@@ -169,6 +161,25 @@
       </div>
     </div>
   </header>
+
+  <!-- Drawer Móvil -->
+  <div id="mobileDrawer"
+    class="fixed inset-y-0 left-0 w-64 bg-slate-900 border-r border-slate-800 shadow-xl transform -translate-x-full transition-transform duration-300 z-50">
+    <button id="navClose" class="absolute top-4 right-4 text-slate-300 hover:text-accent" aria-label="Cerrar menú">
+      <i data-lucide="x" class="w-6 h-6"></i>
+    </button>
+    <nav class="flex flex-col gap-4 mt-16 px-6 text-base font-medium text-slate-300">
+      <a href="#servicios" class="hover:text-accent transition-colors">Servicios</a>
+      <a href="#diagnostico" class="hover:text-accent transition-colors">Pre-Diagnóstico</a>
+      <a href="#proceso" class="hover:text-accent transition-colors">Norma Técnica</a>
+      <a href="#redes" class="hover:text-accent transition-colors">Trabajos Reales</a>
+      <a href="https://wa.me/5491173719821?text=Hola%20Frig%20Zone,%20necesito%20una%20consulta%20técnica"
+        target="_blank" rel="noopener noreferrer"
+        class="mt-4 flex items-center justify-center gap-2 bg-brand-600 text-white py-2.5 rounded-lg font-semibold">
+        <i data-lucide="message-circle" class="w-4 h-4"></i> Pedir Visita
+      </a>
+    </nav>
+  </div>
 
   <main class="pt-20">
 
@@ -249,7 +260,7 @@
               Instalaciones homologadas para no perder la garantía del fabricante. Balcones, terrazas, tapacintas o
               altura con arnés de seguridad.
             </p>
-            <ul class="text-xs text-slate-300 space-x-0 space-y-2">
+            <ul class="text-xs text-slate-300 space-y-2">
               <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
                 Cañería de cobre normalizada</li>
               <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
@@ -269,7 +280,7 @@
               Diagnóstico electrónico de placas, detección de códigos de error, cambio de sensores, capacitores y
               reemplazo de motocompresores.
             </p>
-            <ul class="text-xs text-slate-300 space-x-0 space-y-2">
+            <ul class="text-xs text-slate-300 space-y-2">
               <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i> Carga
                 de gas por balanza digital</li>
               <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
@@ -289,7 +300,7 @@
               Limpieza total de turbinas y serpentinas con hidro-funda colectora y desinfectante bactericida sin manchar
               ni ensuciar tus paredes.
             </p>
-            <ul class="text-xs text-slate-300 space-x-0 space-y-2">
+            <ul class="text-xs text-slate-300 space-y-2">
               <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
                 Eliminación de malos olores y moho</li>
               <li class="flex items-center gap-2"><i data-lucide="check" class="w-3.5 h-3.5 text-emerald-400"></i>
@@ -318,7 +329,6 @@
 
           <form id="diagForm" class="space-y-6">
             <div class="grid sm:grid-cols-2 gap-4">
-              <!-- Tipo de Equipo -->
               <div>
                 <label class="block text-xs font-semibold text-slate-300 uppercase mb-2">Tipo de Equipo</label>
                 <select id="diagEquipo"
@@ -330,7 +340,6 @@
                 </select>
               </div>
 
-              <!-- Tipo de Necesidad -->
               <div>
                 <label class="block text-xs font-semibold text-slate-300 uppercase mb-2">Servicio Requerido</label>
                 <select id="diagServicio"
@@ -343,7 +352,6 @@
               </div>
             </div>
 
-            <!-- Falla o Detalle -->
             <div>
               <label class="block text-xs font-semibold text-slate-300 uppercase mb-2">¿Qué síntoma o detalle presenta
                 el equipo?</label>
@@ -352,14 +360,12 @@
                 class="w-full bg-slate-950 border border-slate-700 rounded-xl p-4 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-accent"></textarea>
             </div>
 
-            <!-- Zona / Barrio -->
             <div>
               <label class="block text-xs font-semibold text-slate-300 uppercase mb-2">Barrio / Zona de atención</label>
               <input type="text" id="diagZona" placeholder="Ej: Caballito, Palermo, Belgrano, Almagro..."
                 class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-3 text-sm text-white placeholder-slate-500 focus:outline-none focus:border-accent">
             </div>
 
-            <!-- Botón Generador -->
             <button type="submit"
               class="w-full bg-emerald-600 hover:bg-emerald-500 text-white font-bold py-4 rounded-xl flex items-center justify-center gap-3 shadow-lg shadow-emerald-600/20 transition-all">
               <i data-lucide="send" class="w-5 h-5"></i>
@@ -498,15 +504,16 @@
     </div>
   </footer>
 
-  <!-- Script interactivo del formulario y los iconos -->
+  <!-- Script interactivo -->
   <script>
     // Inicializar iconos de Lucide
     lucide.createIcons();
 
-    // === Menú drawer lateral ===
+    // Drawer móvil
     const navToggle = document.getElementById('navToggle');
     const navClose = document.getElementById('navClose');
     const mobileDrawer = document.getElementById('mobileDrawer');
+
     if (navToggle && mobileDrawer) {
       navToggle.addEventListener('click', () => {
         mobileDrawer.classList.remove('-translate-x-full');
@@ -518,13 +525,14 @@
       });
     }
 
-    // Reemplazá este número con el WhatsApp real de tu familiar (código país + código área sin 0 ni 15)
-    // Ejemplo para Buenos Aires: 54911XXXXXXXX
-    const WHATSAPP_NUMERO = "5491173719821";
+    // Cerrar drawer al hacer clic en un enlace
+    document.querySelectorAll('#mobileDrawer a').forEach(link => {
+      link.addEventListener('click', () => {
+        mobileDrawer.classList.add('-translate-x-full');
+      });
+    });
 
-    // Actualizar links de la interfaz
-    document.getElementById('navWhatsappBtn').href = `https://wa.me/${WHATSAPP_NUMERO}?text=Hola%20Frig%20Zone,%20necesito%20coordinar%20una%20visita%20técnica.`;
-    document.getElementById('floatingWhatsappBtn').href = `https://wa.me/${WHATSAPP_NUMERO}?text=Hola%20Frig%20Zone,%20vengo%20desde%20la%20web%20para%20una%20consulta.`;
+    const WHATSAPP_NUMERO = "5491173719821";
 
     // Manejo del formulario de pre-diagnóstico
     document.getElementById('diagForm').addEventListener('submit', function (e) {
@@ -540,39 +548,12 @@
         `⚙️ *Equipo:* ${equipo}\n` +
         `📍 *Zona/Barrio:* ${zona}\n` +
         `📝 *Detalle/Síntoma:* ${sintoma}\n\n` +
-        `_Enviado desde frigzone.github.io_`;
+        `_Enviado desde oscarmonzonia-cloud.github.io/frig-zone-web/_`;
 
       const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensaje)}`;
       window.open(url, '_blank');
     });
-    // Lazy-load images (native support)
-  document.querySelectorAll('img').forEach(img => {
-    if (!img.hasAttribute('loading')) {
-      img.setAttribute('loading', 'lazy');
-    }
-  });
-
-  // Lazy-load videos via IntersectionObserver
-  const lazyLoadObserver = new IntersectionObserver((entries, observer) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const media = entry.target;
-        if (media.dataset.src) {
-          media.src = media.dataset.src;
-        }
-        if (media.dataset.srcset) {
-          media.srcset = media.dataset.srcset;
-        }
-        observer.unobserve(media);
-      }
-    });
-  }, {rootMargin: '200px'});
-
-  document.querySelectorAll('video[data-src]').forEach(video => {
-    lazyLoadObserver.observe(video);
-  });
-
-</script>
+  </script>
 </body>
 
 </html>
