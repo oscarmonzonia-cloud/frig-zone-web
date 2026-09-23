@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://oscarmonzonia-cloud.github.io/frig-zone-web/sitemap.xml
