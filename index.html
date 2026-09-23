@@ -22,6 +22,31 @@
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --brand-h: 200;
+      /* tono cyan */
+      --brand-s: 80%;
+      --brand-l: 45%;
+      --brand: hsl(var(--brand-h), var(--brand-s), var(--brand-l));
+      --accent: #06b6d4;
+      /* ya usado, pero para consistencia */
+      --font-primary: 'Inter', system-ui, sans-serif;
+    }
+
+    body {
+      font-family: var(--font-primary);
+    }
+
+    .bg-brand-600 {
+      background-color: var(--brand) !important;
+    }
+
+    .bg-brand-500 {
+      background-color: hsl(var(--brand-h), var(--brand-s), calc(var(--brand-l) - 10%)) !important;
+    }
+  </style>
   <script>
     tailwind.config = {
       theme: {
@@ -53,7 +78,7 @@
     "@type": "HVACBusiness",
     "name": "Frig Zone Climatización & Refrigeración",
     "image": "https://frigzone.github.io/logo.png",
-    "telephone": "+5491100000000",
+    "telephone": "+5491173719821",
     "priceRange": "$$",
     "address": {
       "@type": "PostalAddress",
@@ -77,6 +102,17 @@
     ]
   }
   </script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C8XYWFV8DD"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-C8XYWFV8DD');
+</script>
+<!-- Google Search Console verification -->
+<meta name="google-site-verification" content="googleb0608c2c91c2aa37.html">
+</head>
 </head>
 
 <body class="bg-slate-900 text-slate-100 font-sans antialiased selection:bg-brand-500 selection:text-white">
@@ -98,12 +134,28 @@
       </a>
 
       <!-- Navegación Escritorio -->
-      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
-        <a href="#servicios" class="hover:text-accent transition-colors">Servicios</a>
-        <a href="#diagnostico" class="hover:text-accent transition-colors">Pre-Diagnóstico</a>
-        <a href="#proceso" class="hover:text-accent transition-colors">Norma Técnica</a>
-        <a href="#redes" class="hover:text-accent transition-colors">Trabajos Reales</a>
-      </nav>
+      <button id="navToggle" class="md:hidden flex items-center p-2 text-slate-300 hover:text-accent transition-colors"
+        aria-label="Abrir menú">
+        <i data-lucide="menu" class="w-6 h-6"></i>
+      </button>
+      <nav class="hidden md:flex gap-6 text-sm font-medium text-slate-300">
+  <a href="#servicios" class="hover:text-accent transition-colors">Servicios</a>
+  <a href="#diagnostico" class="hover:text-accent transition-colors">Pre-Diagnóstico</a>
+  <a href="#proceso" class="hover:text-accent transition-colors">Norma Técnica</a>
+  <a href="#redes" class="hover:text-accent transition-colors">Trabajos Reales</a>
+</nav>
+<div id="mobileDrawer" class="fixed inset-y-0 left-0 w-64 bg-slate-900 border-r border-slate-800 shadow-xl transform -translate-x-full transition-transform duration-300 z-50">
+
+        <button id="navClose" class="absolute top-4 right-4 text-slate-300 hover:text-accent">
+          <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+        <nav class="flex flex-col gap-4 mt-12 px-4 text-sm font-medium text-slate-300">
+          <a href="#servicios" class="hover:text-accent transition-colors">Servicios</a>
+          <a href="#diagnostico" class="hover:text-accent transition-colors">Pre-Diagnóstico</a>
+          <a href="#proceso" class="hover:text-accent transition-colors">Norma Técnica</a>
+          <a href="#redes" class="hover:text-accent transition-colors">Trabajos Reales</a>
+        </nav>
+      </div>
 
       <!-- Botón CTA Rápido -->
       <div class="flex items-center gap-3">
@@ -427,7 +479,7 @@
 
   <!-- Botón Flotante de WhatsApp -->
   <a id="floatingWhatsappBtn"
-    href="https://wa.me/5491100000000?text=Hola%20Frig%20Zone,%20te%20contacto%20desde%20la%20página%20web"
+    href="https://wa.me/5491173719821?text=Hola%20Frig%20Zone,%20te%20contacto%20desde%20la%20página%20web"
     target="_blank" rel="noopener noreferrer"
     class="fixed bottom-6 right-6 z-50 bg-emerald-500 hover:bg-emerald-400 text-white p-4 rounded-full shadow-2xl shadow-emerald-500/40 hover:scale-110 transition-all flex items-center justify-center"
     aria-label="Contacto por WhatsApp">
@@ -450,6 +502,21 @@
   <script>
     // Inicializar iconos de Lucide
     lucide.createIcons();
+
+    // === Menú drawer lateral ===
+    const navToggle = document.getElementById('navToggle');
+    const navClose = document.getElementById('navClose');
+    const mobileDrawer = document.getElementById('mobileDrawer');
+    if (navToggle && mobileDrawer) {
+      navToggle.addEventListener('click', () => {
+        mobileDrawer.classList.remove('-translate-x-full');
+      });
+    }
+    if (navClose && mobileDrawer) {
+      navClose.addEventListener('click', () => {
+        mobileDrawer.classList.add('-translate-x-full');
+      });
+    }
 
     // Reemplazá este número con el WhatsApp real de tu familiar (código país + código área sin 0 ni 15)
     // Ejemplo para Buenos Aires: 54911XXXXXXXX
@@ -478,7 +545,34 @@
       const url = `https://wa.me/${WHATSAPP_NUMERO}?text=${encodeURIComponent(mensaje)}`;
       window.open(url, '_blank');
     });
-  </script>
+    // Lazy-load images (native support)
+  document.querySelectorAll('img').forEach(img => {
+    if (!img.hasAttribute('loading')) {
+      img.setAttribute('loading', 'lazy');
+    }
+  });
+
+  // Lazy-load videos via IntersectionObserver
+  const lazyLoadObserver = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const media = entry.target;
+        if (media.dataset.src) {
+          media.src = media.dataset.src;
+        }
+        if (media.dataset.srcset) {
+          media.srcset = media.dataset.srcset;
+        }
+        observer.unobserve(media);
+      }
+    });
+  }, {rootMargin: '200px'});
+
+  document.querySelectorAll('video[data-src]').forEach(video => {
+    lazyLoadObserver.observe(video);
+  });
+
+</script>
 </body>
 
 </html>
