@@ -238,6 +238,42 @@ function initFrigZoneApp() {
       cookieBanner.classList.add('hidden');
     });
   }
+
+  // === MODAL LIGHTBOX PARA AMPLIAR IMÁGENES ===
+  const imageModal = document.getElementById('imageModal');
+  const imageModalImg = document.getElementById('imageModalImg');
+  const imageModalTitle = document.getElementById('imageModalTitle');
+  const closeImageModal = document.getElementById('closeImageModal');
+
+  if (imageModal && imageModalImg) {
+    document.querySelectorAll('.img-lightbox').forEach(img => {
+      img.addEventListener('click', () => {
+        const src = img.getAttribute('src');
+        const title = img.getAttribute('data-title') || img.getAttribute('alt') || 'Visualización de Imagen';
+        imageModalImg.setAttribute('src', src);
+        if (imageModalTitle) imageModalTitle.textContent = title;
+        imageModal.classList.remove('hidden');
+      });
+    });
+
+    if (closeImageModal) {
+      closeImageModal.addEventListener('click', () => {
+        imageModal.classList.add('hidden');
+      });
+    }
+
+    imageModal.addEventListener('click', (e) => {
+      if (e.target === imageModal) {
+        imageModal.classList.add('hidden');
+      }
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && !imageModal.classList.contains('hidden')) {
+        imageModal.classList.add('hidden');
+      }
+    });
+  }
 }
 
 // Ejecución segura sin importar si DOMContentLoaded ya ocurrió
