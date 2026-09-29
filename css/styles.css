@@ -1,0 +1,30 @@
+/* Frig Zone - Custom Styles System */
+
+:root {
+  --brand-h: 200;
+  --brand-s: 80%;
+  --brand-l: 45%;
+  --brand: hsl(var(--brand-h), var(--brand-s), var(--brand-l));
+  --accent: #06b6d4;
+  --font-primary: 'Inter', system-ui, sans-serif;
+}
+
+body {
+  font-family: var(--font-primary);
+}
+
+.bg-brand-600 {
+  background-color: var(--brand) !important;
+}
+
+.bg-brand-500 {
+  background-color: hsl(var(--brand-h), var(--brand-s), calc(var(--brand-l) - 10%)) !important;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary {
+  list-style: none;
+}
