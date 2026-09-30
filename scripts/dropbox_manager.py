@@ -2,6 +2,19 @@ import os
 import dropbox
 from dropbox.files import WriteMode
 
+
+def upload_generated_image_to_dropbox(local_file_path, filename):
+    dbx = dropbox.Dropbox(os.environ.get("DROPBOX_ACCESS_TOKEN"))
+    dest_path = f"/FrigZone-AutoQueue/imagenes-generadas/{filename}"
+    
+    with open(local_file_path, "rb") as f:
+        dbx.files_upload(f.read(), dest_path, mode=dropbox.files.WriteMode.overwrite)
+    
+    # Creamos un enlace compartido público con descarga directa (dl=1)
+    shared_link_metadata = dbx.sharing_create_shared_link_with_settings(dest_path)
+    url = shared_link_metadata.url.replace("?dl=0", "?dl=1")
+    return url
+
 def get_next_video_from_dropbox():
     # Lee el token de acceso desde las variables de entorno de forma segura
     dbx_token = os.environ.get("DROPBOX_ACCESS_TOKEN")

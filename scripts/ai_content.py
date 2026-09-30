@@ -1,37 +1,70 @@
 import os
 from google import genai
+from google.genai import types
 
-def generate_post_copy():
-    # Lee la API Key de Gemini desde las variables de entorno de forma segura
+def generate_post_content():
     api_key = os.environ.get("GEMINI_API_KEY")
-    
     if not api_key:
-        raise ValueError("No se encontró la GEMINI_API_KEY en las variables de entorno.")
-    
-    # Inicializa el cliente oficial de Google GenAI
+        print("Error: No se encontró la GEMINI_API_KEY.")
+        return None, None
+
     client = genai.Client(api_key=api_key)
-    
+
     prompt = """
-    Eres el experto en marketing y redes sociales de 'FrigZone', una marca especializada en refrigeración, aires acondicionados y climatización.
-    Genera un post corto, profesional y atractivo para Facebook e Instagram que incluya:
-    1. Un gancho inicial llamativo (pregunta o dato curioso sobre refrigeración).
-    2. Un consejo técnico útil para el mantenimiento de equipos.
-    3. Una llamada a la acción clara para que contacten a FrigZone.
-    4. 5 hashtags relevantes y populares.
+    Eres el director de marketing de 'FrigZone', una empresa de refrigeración y climatización en Argentina.
+    Genera contenido para una publicación en redes sociales sobre consejos de mantenimiento, ahorro de energía, service de aires acondicionados o buenas prácticas técnicas.
     
-    Devuelve únicamente el texto listo para ser publicado.
+    Devuelve la respuesta estrictamente separada por '---':
+    [TEXTO_PUBLICACION]
+    (Redacta un consejo técnico útil y amigable para clientes, con un toque profesional y hashtags al final).
+    ---
+    [PROMPT_IMAGEN]
+    (Describe detalladamente en inglés una imagen limpia, moderna, fotorrealista y profesional relacionada con el consejo, ideal para Instagram/Facebook en formato cuadrado).
     """
-    
+
     try:
-        # Usamos el modelo rápido y eficiente de la capa gratuita
         response = client.models.generate_content(
             model='gemini-2.5-flash',
             contents=prompt,
         )
         
-        print("¡Contenido generado exitosamente con Gemini AI!")
-        return response.text
+        content = response.text
+        parts = content.split("---")
         
+        if len(parts) >= 2:
+            post_text = parts[0].replace("[TEXTO_PUBLICACION]", "").strip()
+            image_prompt = parts[1].replace("[PROMPT_IMAGEN]", "").strip()
+            return post_text, image_prompt
+        else:
+            return content.strip(), "A modern professional HVAC and refrigeration technician working cleanly with tools."
+            
     except Exception as e:
         print(f"Error al generar contenido con Gemini: {e}")
+        return None, None
+
+def generate_ai_image(image_prompt, output_filename="post_ia.jpg"):
+    api_key = os.environ.get("GEMINI_API_KEY")
+    client = genai.Client(api_key=api_key)
+    
+    print(f"Generando imagen con IA usando el prompt: {image_prompt}")
+    try:
+        result = client.models.generate_images(
+            model='imagen-3.0-generate-002',
+            prompt=image_prompt,
+            config=types.GenerateImagesConfig(
+                number_of_images=1,
+                output_mime_type="image/jpeg",
+                aspect_ratio="1:1",
+            )
+        )
+        
+        for generated_image in result.generated_images:
+            image = generated_image.image.image_bytes
+            with open(output_filename, "wb") as f:
+                f.write(image)
+        
+        print(f"Imagen generada localmente como {output_filename}")
+        return output_filename
+    except Exception as e:
+        print(f"Error al generar la imagen con IA: {e}")
         return None

@@ -1,8 +1,12 @@
 import os
 import time
 import requests
-from dropbox_manager import get_next_video_from_dropbox, archive_published_video
-from ai_content import generate_post_copy
+from dropbox_manager import (
+    get_next_video_from_dropbox, 
+    archive_published_video, 
+    upload_generated_image_to_dropbox
+)
+from ai_content import generate_post_content, generate_ai_image
 
 def publish_to_meta(media_url, caption, media_type="VIDEO"):
     page_id = os.environ.get("META_PAGE_ID")
@@ -11,7 +15,7 @@ def publish_to_meta(media_url, caption, media_type="VIDEO"):
     
     # 1. Publicar en Facebook
     print(f"Publicando {media_type} en Facebook...")
-    fb_url = f"https://graph.facebook.com/v26.0/{page_id}/feed" if media_type == "TEXT" else f"https://graph.facebook.com/v26.0/{page_id}/videos"
+    fb_url = f"https://graph.facebook.com/v26.0/{page_id}/feed" if media_type == "TEXT" else f"https://graph.facebook.com/v26.0/{page_id}/videos" if media_type == "VIDEO" else f"https://graph.facebook.com/v26.0/{page_id}/photos"
     
     fb_payload = {
         "access_token": access_token,
@@ -25,7 +29,7 @@ def publish_to_meta(media_url, caption, media_type="VIDEO"):
     response = requests.post(fb_url, data=fb_payload)
     print("Respuesta Facebook:", response.json())
 
-    # 2. Publicar en Instagram (si aplica para video o imagen)
+    # 2. Publicar en Instagram
     if ig_account_id and media_type != "TEXT":
         print(f"Publicando {media_type} en Instagram...")
         container_url = f"https://graph.facebook.com/v26.0/{ig_account_id}/media"
@@ -36,7 +40,7 @@ def publish_to_meta(media_url, caption, media_type="VIDEO"):
         if media_type == "VIDEO":
             container_payload["media_type"] = "REELS"
             container_payload["video_url"] = media_url
-        else:
+        elif media_type == "IMAGE":
             container_payload["image_url"] = media_url
             
         container_res = requests.post(container_url, data=container_payload).json()
@@ -44,28 +48,17 @@ def publish_to_meta(media_url, caption, media_type="VIDEO"):
         if "id" in container_res:
             creation_id = container_res["id"]
             
-            # Si es video, esperamos a que Instagram procese el archivo descargándolo de Dropbox
+            # Si es video, esperamos a que procese
             if media_type == "VIDEO":
                 print("Esperando a que Instagram procese el video...")
-                status_ready = False
-                for _ in range(12):  # Revisa hasta 12 veces (60 segundos máximo)
+                for _ in range(12):
                     time.sleep(5)
                     status_url = f"https://graph.facebook.com/v26.0/{creation_id}?fields=status_code&access_token={access_token}"
-                    status_res = requests.get(status_url).json()
-                    code = status_res.get("status_code")
-                    print(f"Estado actual en Instagram: {code}")
+                    code = requests.get(status_url).json().get("status_code")
                     if code == "FINISHED":
-                        status_ready = True
                         break
-                    elif code == "ERROR":
-                        print("Error en el procesamiento de Instagram.")
-                        break
-                
-                if not status_ready:
-                    print("El video tardó demasiado en procesarse en Instagram.")
-                    return
 
-            # Paso 2 de Instagram: Publicar el contenedor
+            # Publicar el contenedor en Instagram
             publish_url = f"https://graph.facebook.com/v26.0/{ig_account_id}/media_publish"
             publish_payload = {
                 "access_token": access_token,
@@ -77,27 +70,33 @@ def publish_to_meta(media_url, caption, media_type="VIDEO"):
             print("Error al crear contenedor en Instagram:", container_res)
 
 def main():
-    print("Iniciando ciclo de automatización de FrigZone-Publisher...")
+    print("Iniciando ciclo inteligente de automatización FrigZone...")
     
-    # Intentamos buscar un video pendiente en Dropbox
+    # 1. Intentamos buscar si hay un video real del usuario en la cola de Dropbox
     video_data = get_next_video_from_dropbox()
     
     if video_data:
-        print(f"Procesando video de trabajo: {video_data['name']}")
-        # Generamos un texto dinámico con IA para acompañar el video real
-        caption = generate_post_copy() or "Nuevo trabajo técnico realizado por FrigZone. Climatización y refrigeración profesional."
+        print(f"Video detectado en Dropbox: {video_data['name']}")
+        caption, _ = generate_post_content() # Usamos IA solo para redactar el copy del video
+        final_caption = caption or f"Trabajo técnico de FrigZone: {video_data['name']}"
         
-        # Publicamos en Meta
-        publish_to_meta(video_data['url'], caption, media_type="VIDEO")
-        
-        # Archivamos el video para que no se vuelva a publicar
+        publish_to_meta(video_data['url'], final_caption, media_type="VIDEO")
         archive_published_video(video_data['path'], video_data['name'])
     else:
-        print("No hay videos en Dropbox. Generando contenido alternativo con Gemini AI...")
-        ai_text = generate_post_copy()
-        if ai_text:
-            # Si no hay video, publicamos el tip de texto/ IA directamente en Facebook
-            publish_to_meta(None, ai_text, media_type="TEXT")
+        print("No hay videos en cola. Creando contenido automático con IA (Texto e Imagen)...")
+        post_text, image_prompt = generate_post_content()
+        
+        if post_text and image_prompt:
+            # Generamos la imagen con el modelo Imagen de Google
+            local_img = generate_ai_image(image_prompt, output_filename="frigzone_ai.jpg")
+            
+            if local_img:
+                # Subimos la imagen generada a Dropbox para respaldo y obtenemos link público
+                timestamp = int(time.time())
+                dropbox_img_url = upload_generated_image_to_dropbox(local_img, f"post_ia_{timestamp}.jpg")
+                
+                print(f"Imagen subida a Dropbox. Publicando en Meta...")
+                publish_to_meta(dropbox_img_url, post_text, media_type="IMAGE")
 
 if __name__ == "__main__":
     main()
