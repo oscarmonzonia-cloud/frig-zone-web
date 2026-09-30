@@ -10,9 +10,25 @@ def upload_generated_image_to_dropbox(local_file_path, filename):
     with open(local_file_path, "rb") as f:
         dbx.files_upload(f.read(), dest_path, mode=dropbox.files.WriteMode.overwrite)
     
-    # Creamos un enlace compartido público con descarga directa (dl=1)
-    shared_link_metadata = dbx.sharing_create_shared_link_with_settings(dest_path)
-    url = shared_link_metadata.url.replace("?dl=0", "?dl=1")
+    # Creamos un enlace compartido público con descarga directa (dl=1) o reutilizamos el existente si ya fue creado
+    url = ""
+    try:
+        shared_link_metadata = dbx.sharing_create_shared_link_with_settings(dest_path)
+        url = shared_link_metadata.url
+    except dropbox.exceptions.ApiError as e:
+        # Si el enlace ya existe, lo buscamos en la lista de enlaces compartidos del archivo
+        links = dbx.sharing_list_shared_links(path=dest_path).links
+        if links:
+            url = links[0].url
+        else:
+            raise e
+
+    # Aseguramos el formato de descarga directa requerido por Meta
+    if "?dl=0" in url:
+        url = url.replace("?dl=0", "?dl=1")
+    elif not url.endswith("?dl=1"):
+        url += "?dl=1"
+        
     return url
 
 def get_next_video_from_dropbox():
@@ -42,9 +58,14 @@ def get_next_video_from_dropbox():
         print(f"Video seleccionado para publicar: {target_file.name}")
         
         # Genera o solicita un enlace temporal o directo compartido
-        # Nota: Dropbox permite obtener un enlace de descarga directa modificando el parámetro final a dl=1
-        shared_link_metadata = dbx.sharing_create_shared_link_with_settings(target_file.path_lower)
-        direct_url = shared_link_metadata.url.replace("www.dropbox.com", "dl.dropboxusercontent.com").replace("dl=0", "dl=1")
+        try:
+            shared_link_metadata = dbx.sharing_create_shared_link_with_settings(target_file.path_lower)
+            link_url = shared_link_metadata.url
+        except Exception:
+            links = dbx.sharing_list_shared_links(path=target_file.path_lower).links
+            link_url = links[0].url if links else ""
+
+        direct_url = link_url.replace("www.dropbox.com", "dl.dropboxusercontent.com").replace("dl=0", "dl=1")
         
         return {
             "name": target_file.name,
