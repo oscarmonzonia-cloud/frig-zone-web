@@ -65,9 +65,8 @@ def generate_ai_image(image_prompt, output_filename="post_ia.jpg"):
     api_key = os.environ.get("GEMINI_API_KEY")
     client = genai.Client(api_key=api_key)
     
-    print(f"Generando imagen con IA (Imagen 3)...")
+    print(f"Generando imagen con IA (Imagen 3 dedicada)...")
     
-    # Intentamos hasta 2 veces por si hay congestión temporal
     for attempt in range(1, 3):
         try:
             result = client.models.generate_images(
@@ -96,7 +95,3 @@ def generate_ai_image(image_prompt, output_filename="post_ia.jpg"):
                 
     print("No se pudo generar la imagen tras los reintentos.")
     return None
-            
-    except Exception as e:
-        print(f"Error al generar la imagen con Gemini: {e}")
-        return None
