@@ -48,15 +48,20 @@ def publish_to_meta(media_url, caption, media_type="VIDEO"):
         if "id" in container_res:
             creation_id = container_res["id"]
             
-            # Si es video, esperamos a que procese
-            if media_type == "VIDEO":
-                print("Esperando a que Instagram procese el video...")
-                for _ in range(12):
-                    time.sleep(5)
-                    status_url = f"https://graph.facebook.com/v26.0/{creation_id}?fields=status_code&access_token={access_token}"
-                    code = requests.get(status_url).json().get("status_code")
-                    if code == "FINISHED":
-                        break
+            # Esperamos a que Instagram procese el contenido multimedia (tanto video como imagen)
+            print(f"Esperando a que Instagram procese el contenido ({media_type})...")
+            for attempt in range(1, 12):
+                time.sleep(5)
+                status_url = f"https://graph.facebook.com/v26.0/{creation_id}?fields=status_code&access_token={access_token}"
+                status_res = requests.get(status_url).json()
+                code = status_res.get("status_code")
+                print(f"Estado en Instagram (Intento {attempt}/11): {code}")
+                
+                if code == "FINISHED":
+                    break
+                elif code == "ERROR":
+                    print("Error reportado por Instagram durante el procesamiento:", status_res)
+                    break
 
             # Publicar el contenedor en Instagram
             publish_url = f"https://graph.facebook.com/v26.0/{ig_account_id}/media_publish"
