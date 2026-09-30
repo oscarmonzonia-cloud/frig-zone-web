@@ -1,4 +1,5 @@
 import os
+import time
 from google import genai
 from google.genai import types
 
@@ -22,8 +23,13 @@ def generate_post_content():
     (Describe detalladamente en inglés una imagen limpia, moderna, fotorrealista y profesional relacionada con el consejo, ideal para Instagram/Facebook en formato cuadrado).
     """
 
-    # Lista de modelos a probar en orden de prioridad (Fallback automático)
-    models_to_try = ['gemini-3.8-flash', 'gemini-1.5-flash']
+    # Lista de modelos en orden de respaldo para evitar bloqueos por saturación o límites
+    models_to_try = [
+        'gemini-3.8-flash', 
+        'gemini-2.5-flash', 
+        'gemini-2.0-flash', 
+        'gemini-1.5-flash'
+    ]
     
     response = None
     for model_name in models_to_try:
@@ -34,12 +40,15 @@ def generate_post_content():
                 contents=prompt,
             )
             if response and response.text:
-                break # Si tiene éxito, salimos del bucle
+                print(f"¡Éxito con el modelo {model_name}!")
+                break
         except Exception as e:
-            print(f"Aviso: El modelo {model_name} falló o está saturado: {e}. Probando siguiente opción...")
+            print(f"Aviso: El modelo {model_name} no respondió (posible saturación o límite): {e}")
+            print("Esperando 3 segundos antes de probar el siguiente modelo...")
+            time.sleep(3)
 
     if not response or not response.text:
-        print("Error crítico: Todos los modelos de Gemini fallaron.")
+        print("Error crítico: Todos los modelos de Gemini fallaron o alcanzaron el límite gratuito temporal.")
         return None, None
 
     try:
