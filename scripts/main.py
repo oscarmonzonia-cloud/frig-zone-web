@@ -1,7 +1,8 @@
 import os
+import time
+import requests
 from dropbox_manager import get_next_video_from_dropbox, archive_published_video
 from ai_content import generate_post_copy
-import requests
 
 def publish_to_meta(media_url, caption, media_type="VIDEO"):
     page_id = os.environ.get("META_PAGE_ID")
@@ -27,7 +28,6 @@ def publish_to_meta(media_url, caption, media_type="VIDEO"):
     # 2. Publicar en Instagram (si aplica para video o imagen)
     if ig_account_id and media_type != "TEXT":
         print(f"Publicando {media_type} en Instagram...")
-        # Paso 1 de Instagram: Crear el contenedor de medios
         container_url = f"https://graph.facebook.com/v26.0/{ig_account_id}/media"
         container_payload = {
             "access_token": access_token,
@@ -43,6 +43,28 @@ def publish_to_meta(media_url, caption, media_type="VIDEO"):
         
         if "id" in container_res:
             creation_id = container_res["id"]
+            
+            # Si es video, esperamos a que Instagram procese el archivo descargándolo de Dropbox
+            if media_type == "VIDEO":
+                print("Esperando a que Instagram procese el video...")
+                status_ready = False
+                for _ in range(12):  # Revisa hasta 12 veces (60 segundos máximo)
+                    time.sleep(5)
+                    status_url = f"https://graph.facebook.com/v26.0/{creation_id}?fields=status_code&access_token={access_token}"
+                    status_res = requests.get(status_url).json()
+                    code = status_res.get("status_code")
+                    print(f"Estado actual en Instagram: {code}")
+                    if code == "FINISHED":
+                        status_ready = True
+                        break
+                    elif code == "ERROR":
+                        print("Error en el procesamiento de Instagram.")
+                        break
+                
+                if not status_ready:
+                    print("El video tardó demasiado en procesarse en Instagram.")
+                    return
+
             # Paso 2 de Instagram: Publicar el contenedor
             publish_url = f"https://graph.facebook.com/v26.0/{ig_account_id}/media_publish"
             publish_payload = {
