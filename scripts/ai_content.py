@@ -65,20 +65,24 @@ def generate_ai_image(image_prompt, output_filename="post_ia.jpg"):
     api_key = os.environ.get("GEMINI_API_KEY")
     client = genai.Client(api_key=api_key)
     
-    print(f"Generando imagen mediante contenido multimodal de Gemini...")
+    print(f"Generando imagen con Gemini Image Preview...")
     
     for attempt in range(1, 3):
         try:
-            # Usamos generate_content con salida en imagen permitida para la API de desarrolladores
+            # Usamos el modelo nativo correcto para generación de imágenes en la API moderna
             response = client.models.generate_content(
-                model='gemini-3.5-flash',
-                contents=f"Generate a professional, high-quality, square 1:1 photorealistic image for this advertising post: {image_prompt}",
+                model='gemini-3.1-flash-image-preview',
+                contents=f"Create a clean, professional, photorealistic 1:1 square image for this marketing post: {image_prompt}",
                 config=types.GenerateContentConfig(
-                    response_modalities=["TEXT", "IMAGE"]
+                    response_modalities=["IMAGE"],
+                    image_config=types.ImageConfig(
+                        aspect_ratio="1:1"
+                    )
                 ),
             )
             
-            for part in response.candidates[0].content.parts:
+            # Buscamos los bytes de la imagen en la respuesta
+            for part in response.parts:
                 if part.inline_data is not None:
                     image_data = part.inline_data.data
                     with open(output_filename, "wb") as f:
