@@ -11,9 +11,8 @@ def get_next_video_from_dropbox():
     
     dbx = dropbox.Dropbox(dbx_token)
     
-    folder_path = "/FrigZone-Queue" # Carpeta donde subes tus videos desde el celu
-    history_path = "/FrigZone-History" # Carpeta donde se archivarán los ya publicados
-    
+    folder_path = "/FrigZone-AutoQueue/videos-pendientes" # Tu ruta real en Dropbox
+    history_path = "/FrigZone-AutoQueue/videos-historico" # O la carpeta donde quieras archivarlos 
     try:
         # Lista los archivos en la carpeta de pendientes
         result = dbx.files_list_folder(folder_path)
