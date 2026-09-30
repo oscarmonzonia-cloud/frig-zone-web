@@ -22,12 +22,27 @@ def generate_post_content():
     (Describe detalladamente en inglés una imagen limpia, moderna, fotorrealista y profesional relacionada con el consejo, ideal para Instagram/Facebook en formato cuadrado).
     """
 
+    # Lista de modelos a probar en orden de prioridad (Fallback automático)
+    models_to_try = ['gemini-3.8-flash', 'gemini-1.5-flash']
+    
+    response = None
+    for model_name in models_to_try:
+        try:
+            print(f"Intentando generar contenido con el modelo: {model_name}...")
+            response = client.models.generate_content(
+                model=model_name,
+                contents=prompt,
+            )
+            if response and response.text:
+                break # Si tiene éxito, salimos del bucle
+        except Exception as e:
+            print(f"Aviso: El modelo {model_name} falló o está saturado: {e}. Probando siguiente opción...")
+
+    if not response or not response.text:
+        print("Error crítico: Todos los modelos de Gemini fallaron.")
+        return None, None
+
     try:
-        response = client.models.generate_content(
-            model='gemini-3.8-flash',
-            contents=prompt,
-        )
-        
         content = response.text
         parts = content.split("---")
         
@@ -39,7 +54,7 @@ def generate_post_content():
             return content.strip(), "A modern professional HVAC and refrigeration technician working cleanly with tools."
             
     except Exception as e:
-        print(f"Error al generar contenido con Gemini: {e}")
+        print(f"Error procesando la respuesta de la IA: {e}")
         return None, None
 
 def generate_ai_image(image_prompt, output_filename="post_ia.jpg"):
