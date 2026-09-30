@@ -65,32 +65,33 @@ def generate_ai_image(image_prompt, output_filename="post_ia.jpg"):
     api_key = os.environ.get("GEMINI_API_KEY")
     client = genai.Client(api_key=api_key)
     
-    print(f"Generando imagen con IA (Imagen 3 dedicada)...")
+    print(f"Generando imagen mediante contenido multimodal de Gemini...")
     
     for attempt in range(1, 3):
         try:
-            result = client.models.generate_images(
-                model='imagen-3.0-generate-002',
-                prompt=image_prompt,
-                config=types.GenerateImagesConfig(
-                    number_of_images=1,
-                    output_mime_type="image/jpeg",
-                    aspect_ratio="1:1",
-                )
+            # Usamos generate_content con salida en imagen permitida para la API de desarrolladores
+            response = client.models.generate_content(
+                model='gemini-3.5-flash',
+                contents=f"Generate a professional, high-quality, square 1:1 photorealistic image for this advertising post: {image_prompt}",
+                config=types.GenerateContentConfig(
+                    response_modalities=["TEXT", "IMAGE"]
+                ),
             )
             
-            for generated_image in result.generated_images:
-                image = generated_image.image.image_bytes
-                with open(output_filename, "wb") as f:
-                    f.write(image)
-            
-            print(f"Imagen generada localmente como {output_filename}")
-            return output_filename
+            for part in response.candidates[0].content.parts:
+                if part.inline_data is not None:
+                    image_data = part.inline_data.data
+                    with open(output_filename, "wb") as f:
+                        f.write(image_data)
+                    print(f"Imagen generada y guardada localmente como {output_filename}")
+                    return output_filename
+                    
+            print(f"Aviso: El modelo no devolvió datos de imagen en el intento {attempt}.")
             
         except Exception as e:
             print(f"Aviso al generar imagen (Intento {attempt}/2): {e}")
             if attempt < 2:
-                print("Esperando 10 segundos para reintentar la imagen...")
+                print("Esperando 10 segundos para reintentar...")
                 time.sleep(10)
                 
     print("No se pudo generar la imagen tras los reintentos.")
