@@ -10,26 +10,19 @@ def upload_generated_image_to_dropbox(local_file_path, filename):
     with open(local_file_path, "rb") as f:
         dbx.files_upload(f.read(), dest_path, mode=dropbox.files.WriteMode.overwrite)
     
-    # Creamos un enlace compartido público con descarga directa (dl=1) o reutilizamos el existente si ya fue creado
+    # Creamos un enlace compartido público o recuperamos el existente
     url = ""
     try:
         shared_link_metadata = dbx.sharing_create_shared_link_with_settings(dest_path)
         url = shared_link_metadata.url
-    except dropbox.exceptions.ApiError as e:
-        # Si el enlace ya existe, lo buscamos en la lista de enlaces compartidos del archivo
+    except Exception:
         links = dbx.sharing_list_shared_links(path=dest_path).links
         if links:
             url = links[0].url
-        else:
-            raise e
 
-    # Aseguramos el formato de descarga directa requerido por Meta
-    if "?dl=0" in url:
-        url = url.replace("?dl=0", "?dl=1")
-    elif not url.endswith("?dl=1"):
-        url += "?dl=1"
-        
-    return url
+    # Convertimos la URL al formato de descarga directa pura de Dropbox (esencial para Meta)
+    direct_url = url.replace("www.dropbox.com", "dl.dropboxusercontent.com").replace("?dl=0", "").replace("?dl=1", "") + "?dl=1"
+    return direct_url
 
 def get_next_video_from_dropbox():
     # Lee el token de acceso desde las variables de entorno de forma segura
