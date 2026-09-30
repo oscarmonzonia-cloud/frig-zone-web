@@ -102,48 +102,60 @@ def generate_ai_image(image_prompt, output_filename="post_ia.jpg"):
         return None
 
 def create_fallback_image(title_text, subtitle_text, output_filename="post_placa.jpg"):
-    """Crea una placa gráfica profesional en formato JPG con los colores de FrigZone si la IA visual falla"""
+    """Crea una placa gráfica profesional en formato JPG con ajuste de línea automático (Word Wrap) para evitar cortes"""
     try:
         width, height = 1080, 1080
         # Fondo azul corporativo moderno estilo FrigZone
         image = Image.new("RGB", (width, height), color="#0A2540")
         draw = ImageDraw.Draw(image)
         
-        # Intentamos cargar una fuente estándar, si no usa la predeterminada
+        # Fuentes seguras
         try:
-            font_title = ImageFont.truetype("DejaVuSans-Bold.ttf", 60)
-            font_sub = ImageFont.truetype("DejaVuSans.ttf", 36)
+            font_title = ImageFont.truetype("DejaVuSans-Bold.ttf", 55)
+            font_body = ImageFont.truetype("DejaVuSans.ttf", 38)
         except:
             font_title = ImageFont.load_default()
-            font_sub = ImageFont.load_default()
+            font_body = ImageFont.load_default()
 
-        # Dibujar elementos gráficos decorativos (franja superior)
-        draw.rectangle([(0, 0), (width, 40)], fill="#00D4B2") # Turquesa marca
+        # Franja superior decorativa
+        draw.rectangle([(0, 0), (width, 30)], fill="#00D4B2")
         
         # Texto de marca
-        draw.text((80, 100), "❄️ FRIGZONE CLIMATIZACIÓN", fill="#00D4B2", font=font_sub)
+        draw.text((80, 80), "❄️ FRIGZONE CLIMATIZACIÓN", fill="#00D4B2", font=font_body)
         
-        # Título principal de la placa (limitado en líneas o espaciado)
-        draw.text((80, 220), title_text[:40], fill="#FFFFFF", font=font_title)
+        # Título principal de la placa
+        draw.text((80, 160), title_text[:45], fill="#FFFFFF", font=font_title)
         
         # Línea divisoria
-        draw.line([(80, 320), (1000, 320)], fill="#3A506B", width=4)
+        draw.line([(80, 250), (1000, 250)], fill="#3A506B", width=3)
         
-        # Subtítulo o extracto del consejo
-        # Dividimos el texto en líneas para que no se salga de la placa
-        margin = 80
-        y_text = 380
-        for line in subtitle_text.split('\n'):
-            draw.text((margin, y_text), line[:60], fill="#E2E8F0", font=font_sub)
-            y_text += 50
-            if y_text > 900:
-                break
+        # Algoritmo de ajuste de texto automático (Word Wrap) para el cuerpo del consejo
+        margin_x = 80
+        y_text = 300
+        max_width_chars = 38  # Límite seguro de caracteres por línea en formato cuadrado
+        
+        words = subtitle_text.split()
+        current_line = ""
+        
+        for word in words:
+            if len(current_line + " " + word) <= max_width_chars:
+                current_line += (" " + word) if current_line else word
+            else:
+                draw.text((margin_x, y_text), current_line, fill="#E2E8F0", font=font_body)
+                y_text += 55
+                current_line = word
+                if y_text > 900:  # Margen de seguridad para no pisar el pie de página
+                    current_line += "..."
+                    break
+        
+        if current_line and y_text <= 900:
+            draw.text((margin_x, y_text), current_line, fill="#E2E8F0", font=font_body)
 
         # Pie de página
-        draw.text((80, 980), "Servicio Técnico Profesional • Buenos Aires", fill="#94A3B8", font=font_sub)
+        draw.text((80, 1000), "Servicio Técnico Profesional • Buenos Aires", fill="#64748B", font=font_body)
 
         image.save(output_filename, "JPEG", quality=95)
-        print(f"Placa gráfica de respaldo generada exitosamente como {output_filename}")
+        print(f"Placa gráfica de respaldo generada y adaptada exitosamente como {output_filename}")
         return output_filename
     except Exception as e:
         print(f"Error al generar la imagen de respaldo: {e}")
