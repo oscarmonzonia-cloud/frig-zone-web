@@ -2,6 +2,7 @@ import os
 import time
 from google import genai
 from google.genai import types
+from PIL import Image, ImageDraw, ImageFont
 
 def generate_post_content():
     api_key = os.environ.get("GEMINI_API_KEY")
@@ -11,7 +12,6 @@ def generate_post_content():
 
     client = genai.Client(api_key=api_key)
 
-    # Prompt mejorado para pedir también un diseño HTML estilizado de respaldo
     prompt = """
     Eres el director de marketing de 'FrigZone', una empresa de refrigeración y climatización en Argentina.
     Genera contenido para una publicación en redes sociales sobre consejos de mantenimiento, ahorro de energía o buenas prácticas técnicas.
@@ -23,8 +23,8 @@ def generate_post_content():
     [PROMPT_IMAGEN]
     (Describe detalladamente en inglés una imagen limpia, moderna y profesional relacionada con el consejo, ideal para redes).
     ---
-    [HTML_ESTILIZADO]
-    (Genera un diseño HTML/CSS completo y minimalista, listo para embeber en un contenedor cuadrado de 1080x1080px, con los colores de FrigZone (fondos limpios, azul corporativo, tipografía moderna) que muestre visualmente este mismo consejo técnico en formato de placa o tarjeta publicitaria).
+    [TITULO_PLACA]
+    (Un título corto y llamativo de 3 a 5 palabras para la placa gráfica, ej: "¡Cuidado con el consumo!").
     """
 
     max_retries = 3
@@ -32,7 +32,7 @@ def generate_post_content():
 
     for attempt in range(1, max_retries + 1):
         try:
-            print(f"Generando contenido y estructura con Gemini (Intento {attempt}/{max_retries})...")
+            print(f"Generando contenido con Gemini (Intento {attempt}/{max_retries})...")
             response = client.models.generate_content(
                 model='gemini-3.5-flash',
                 contents=prompt,
@@ -56,18 +56,16 @@ def generate_post_content():
         
         post_text = "Consejo FrigZone"
         image_prompt = "A modern professional HVAC technician."
-        html_content = "<div><h1>FrigZone</h1></div>"
+        placa_title = "FrigZone Climatización"
 
         if len(parts) >= 1:
             post_text = parts[0].replace("[TEXTO_PUBLICACION]", "").strip()
         if len(parts) >= 2:
             image_prompt = parts[1].replace("[PROMPT_IMAGEN]", "").strip()
         if len(parts) >= 3:
-            html_content = parts[2].replace("[HTML_ESTILIZADO]", "").strip()
-            # Limpiamos bloques de código markdown si la IA los incluye por error
-            html_content = html_content.replace("```html", "").replace("```", "").strip()
+            placa_title = parts[2].replace("[TITULO_PLACA]", "").strip()
 
-        return post_text, image_prompt, html_content
+        return post_text, image_prompt, placa_title
             
     except Exception as e:
         print(f"Error procesando la respuesta de la IA: {e}")
@@ -77,10 +75,9 @@ def generate_ai_image(image_prompt, output_filename="post_ia.jpg"):
     api_key = os.environ.get("GEMINI_API_KEY")
     client = genai.Client(api_key=api_key)
     
-    print(f"Intentando generar imagen con IA (dando tiempo de procesamiento)...")
+    print(f"Intentando generar imagen oficial con IA...")
     
     try:
-        # Damos un margen lógico de espera/petición al modelo de imagen
         response = client.models.generate_content(
             model='gemini-3.1-flash-image',
             contents=f"Create a clean, professional, photorealistic 1:1 square image for this marketing post: {image_prompt}",
@@ -96,22 +93,58 @@ def generate_ai_image(image_prompt, output_filename="post_ia.jpg"):
                     with open(output_filename, "wb") as f:
                         f.write(image_data)
                     print(f"¡Imagen generada por IA exitosamente como {output_filename}!")
-                    return True
+                    return output_filename
                     
-        print("El modelo de IA no devolvió datos de imagen.")
-        return False
+        return None
         
     except Exception as e:
-        print(f"⚠️ La IA visual reportó límite de cuota o demora: {e}")
-        return False
+        print(f"⚠️ Aviso de cuota de IA visual: {e}")
+        return None
 
-def save_html_fallback(html_content, output_filename="post_placa.html"):
-    """Guarda el diseño HTML generado por la IA como respaldo visual"""
+def create_fallback_image(title_text, subtitle_text, output_filename="post_placa.jpg"):
+    """Crea una placa gráfica profesional en formato JPG con los colores de FrigZone si la IA visual falla"""
     try:
-        with open(output_filename, "w", encoding="utf-8") as f:
-            f.write(html_content)
-        print(f"Placa HTML de respaldo generada y guardada como {output_filename}")
+        width, height = 1080, 1080
+        # Fondo azul corporativo moderno estilo FrigZone
+        image = Image.new("RGB", (width, height), color="#0A2540")
+        draw = ImageDraw.Draw(image)
+        
+        # Intentamos cargar una fuente estándar, si no usa la predeterminada
+        try:
+            font_title = ImageFont.truetype("DejaVuSans-Bold.ttf", 60)
+            font_sub = ImageFont.truetype("DejaVuSans.ttf", 36)
+        except:
+            font_title = ImageFont.load_default()
+            font_sub = ImageFont.load_default()
+
+        # Dibujar elementos gráficos decorativos (franja superior)
+        draw.rectangle([(0, 0), (width, 40)], fill="#00D4B2") # Turquesa marca
+        
+        # Texto de marca
+        draw.text((80, 100), "❄️ FRIGZONE CLIMATIZACIÓN", fill="#00D4B2", font=font_sub)
+        
+        # Título principal de la placa (limitado en líneas o espaciado)
+        draw.text((80, 220), title_text[:40], fill="#FFFFFF", font=font_title)
+        
+        # Línea divisoria
+        draw.line([(80, 320), (1000, 320)], fill="#3A506B", width=4)
+        
+        # Subtítulo o extracto del consejo
+        # Dividimos el texto en líneas para que no se salga de la placa
+        margin = 80
+        y_text = 380
+        for line in subtitle_text.split('\n'):
+            draw.text((margin, y_text), line[:60], fill="#E2E8F0", font=font_sub)
+            y_text += 50
+            if y_text > 900:
+                break
+
+        # Pie de página
+        draw.text((80, 980), "Servicio Técnico Profesional • Buenos Aires", fill="#94A3B8", font=font_sub)
+
+        image.save(output_filename, "JPEG", quality=95)
+        print(f"Placa gráfica de respaldo generada exitosamente como {output_filename}")
         return output_filename
     except Exception as e:
-        print(f"Error al guardar el HTML de respaldo: {e}")
+        print(f"Error al generar la imagen de respaldo: {e}")
         return None
