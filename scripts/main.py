@@ -6,7 +6,7 @@ from dropbox_manager import (
     archive_published_video, 
     upload_generated_image_to_dropbox
 )
-from ai_content import generate_post_content, generate_ai_image, save_html_fallback
+from ai_content import generate_post_content, generate_ai_image, create_fallback_image
 
 def publish_to_meta(media_url, caption, media_type="VIDEO"):
     page_id = os.environ.get("META_PAGE_ID")
@@ -77,14 +77,14 @@ def main():
     
     if video_data:
         print(f"Video detectado en Dropbox: {video_data['name']}")
-        caption, _, _ = generate_post_content() # Adaptado para recibir (post_text, image_prompt, html_content)
+        caption, _, _ = generate_post_content() # Adaptado para recibir la tupla de 3 elementos
         final_caption = caption or f"Trabajo técnico de FrigZone: {video_data['name']}"
         
         publish_to_meta(video_data['url'], final_caption, media_type="VIDEO")
         archive_published_video(video_data['path'], video_data['name'])
     else:
-        print("No hay videos en cola. Creando contenido automático con IA (Texto, Imagen y Respaldo HTML)...")
-        post_text, image_prompt, html_content = generate_post_content()
+        print("No hay videos en cola. Creando contenido automático con IA (Texto y Respaldo Visual)...")
+        post_text, image_prompt, placa_title = generate_post_content()
         
         if post_text:
             # Intentamos generar la imagen con la IA visual
@@ -92,31 +92,24 @@ def main():
             if image_prompt:
                 local_img = generate_ai_image(image_prompt, output_filename="frigzone_ai.jpg")
             
+            # Si la IA visual falla (por cuota o alta demanda), activamos el respaldo local de placa gráfica
+            if not local_img:
+                print("⚠️ La IA visual no pudo generar la imagen (cuota o alta demanda).")
+                print("Activando respaldo inteligente: Generando placa gráfica corporativa en JPG...")
+                local_img = create_fallback_image(placa_title, post_text, output_filename="post_placa.jpg")
+            
             if local_img:
-                # Si la imagen se creó con éxito, la subimos a Dropbox y publicamos en Meta
+                # Subimos la imagen definitiva (sea de IA o de respaldo local) a Dropbox
                 timestamp = int(time.time())
-                dropbox_img_url = upload_generated_image_to_dropbox(local_img, f"post_ia_{timestamp}.jpg")
+                dropbox_img_url = upload_generated_image_to_dropbox(local_img, f"post_final_{timestamp}.jpg")
                 
                 if dropbox_img_url:
-                    print(f"Imagen subida a Dropbox. Publicando en Meta...")
+                    print(f"Imagen lista en Dropbox. Publicando en Meta como IMAGEN...")
                     publish_to_meta(dropbox_img_url, post_text, media_type="IMAGE")
                 else:
-                    print("Error al subir la imagen generada a Dropbox.")
+                    print("Error al subir la imagen final a Dropbox.")
             else:
-                print("⚠️ La IA visual no pudo generar la imagen (cuota o alta demanda).")
-                print("Activando respaldo inteligente: Guardando diseño HTML generado por Gemini...")
-                
-                html_file = save_html_fallback(html_content, output_filename="post_placa.html")
-                if html_file:
-                    # Subimos el HTML o registramos el respaldo para que la automatización no quede vacía
-                    timestamp = int(time.time())
-                    dropbox_html_url = upload_generated_image_to_dropbox(html_file, f"post_placa_{timestamp}.html")
-                    print(f"Placa HTML de respaldo respaldada en Dropbox. Contenido textual publicado como texto/enlace.")
-                    
-                    # Publicación de contingencia como texto con el copy generado
-                    publish_to_meta("", post_text, media_type="TEXT")
-                else:
-                    print("No se pudo generar el respaldo HTML alternativo.")
+                print("Error crítico: No se pudo obtener ni generar ninguna imagen para la publicación.")
 
 if __name__ == "__main__":
     main()
