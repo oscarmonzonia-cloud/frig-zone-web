@@ -23,32 +23,28 @@ def generate_post_content():
     (Describe detalladamente en inglés una imagen limpia, moderna, fotorrealista y profesional relacionada con el consejo, ideal para Instagram/Facebook en formato cuadrado).
     """
 
-    # Lista de modelos en orden de respaldo para evitar bloqueos por saturación o límites
-    models_to_try = [
-        'gemini-3.8-flash', 
-        'gemini-2.5-flash', 
-        'gemini-2.0-flash', 
-        'gemini-1.5-flash'
-    ]
-    
+    # Reintentos seguros y espaciados para evitar saturar la API
+    max_retries = 3
     response = None
-    for model_name in models_to_try:
+
+    for attempt in range(1, max_retries + 1):
         try:
-            print(f"Intentando generar contenido con el modelo: {model_name}...")
+            print(f"Generando contenido con Gemini (Intento {attempt}/{max_retries})...")
             response = client.models.generate_content(
-                model=model_name,
+                model='gemini-3.8-flash',
                 contents=prompt,
             )
             if response and response.text:
-                print(f"¡Éxito con el modelo {model_name}!")
+                print("¡Contenido generado exitosamente con Gemini!")
                 break
         except Exception as e:
-            print(f"Aviso: El modelo {model_name} no respondió (posible saturación o límite): {e}")
-            print("Esperando 3 segundos antes de probar el siguiente modelo...")
-            time.sleep(3)
+            print(f"Aviso en intento {attempt}: {e}")
+            if attempt < max_retries:
+                print("Esperando 25 segundos para que los servidores se liberen...")
+                time.sleep(25)
 
     if not response or not response.text:
-        print("Error crítico: Todos los modelos de Gemini fallaron o alcanzaron el límite gratuito temporal.")
+        print("Error crítico: No se pudo obtener respuesta de Gemini tras varios reintentos espaciados.")
         return None, None
 
     try:
