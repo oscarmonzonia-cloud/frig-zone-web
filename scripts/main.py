@@ -4,6 +4,8 @@ import requests
 from dropbox_manager import (
     get_next_video_from_dropbox, 
     archive_published_video, 
+    get_next_image_from_dropbox,
+    archive_published_image,
     upload_generated_image_to_dropbox
 )
 from ai_content import generate_post_content, generate_ai_image, create_fallback_image
@@ -48,7 +50,7 @@ def publish_to_meta(media_url, caption, media_type="VIDEO"):
         if "id" in container_res:
             creation_id = container_res["id"]
             
-            # Esperamos a que Instagram procese el contenido multimedia (tanto video como imagen)
+            # Esperamos a que Instagram procese el contenido multimedia
             print(f"Esperando a que Instagram procese el contenido ({media_type})...")
             for attempt in range(1, 12):
                 time.sleep(5)
@@ -82,39 +84,50 @@ def main():
     
     if video_data:
         print(f"Video detectado en Dropbox: {video_data['name']}")
-        caption, _, _ = generate_post_content() # Adaptado para recibir la tupla de 3 elementos
+        caption, _, _ = generate_post_content()
         final_caption = caption or f"Trabajo técnico de FrigZone: {video_data['name']}"
         
         publish_to_meta(video_data['url'], final_caption, media_type="VIDEO")
         archive_published_video(video_data['path'], video_data['name'])
-    else:
-        print("No hay videos en cola. Creando contenido automático con IA (Texto y Respaldo Visual)...")
-        post_text, image_prompt, placa_title = generate_post_content()
+        return
+
+    # 2. Si no hay videos, buscamos si hay imágenes en la cola de Dropbox (imagenes-pendientes)
+    image_data = get_next_image_from_dropbox()
+    
+    if image_data:
+        print(f"Imagen detectada en la cola de Dropbox: {image_data['name']}")
+        caption, _, _ = generate_post_content()
+        final_caption = caption or f"Consejo de climatización FrigZone: {image_data['name']}"
         
-        if post_text:
-            # Intentamos generar la imagen con la IA visual
-            local_img = None
-            if image_prompt:
-                local_img = generate_ai_image(image_prompt, output_filename="frigzone_ai.jpg")
+        publish_to_meta(image_data['url'], final_caption, media_type="IMAGE")
+        archive_published_image(image_data['path'], image_data['name'])
+        return
+
+    # 3. Si no hay videos ni imágenes en cola, recurrimos al contenido automático con IA
+    print("No hay videos ni imágenes en cola. Creando contenido automático con IA (Texto y Respaldo Visual)...")
+    post_text, image_prompt, placa_title = generate_post_content()
+    
+    if post_text:
+        local_img = None
+        if image_prompt:
+            local_img = generate_ai_image(image_prompt, output_filename="frigzone_ai.jpg")
+        
+        if not local_img:
+            print("⚠️ La IA visual no pudo generar la imagen (cuota o alta demanda).")
+            print("Activando respaldo inteligente: Generando placa gráfica corporativa en JPG...")
+            local_img = create_fallback_image(placa_title, post_text, output_filename="post_placa.jpg")
+        
+        if local_img:
+            timestamp = int(time.time())
+            dropbox_img_url = upload_generated_image_to_dropbox(local_img, f"post_final_{timestamp}.jpg")
             
-            # Si la IA visual falla (por cuota o alta demanda), activamos el respaldo local de placa gráfica
-            if not local_img:
-                print("⚠️ La IA visual no pudo generar la imagen (cuota o alta demanda).")
-                print("Activando respaldo inteligente: Generando placa gráfica corporativa en JPG...")
-                local_img = create_fallback_image(placa_title, post_text, output_filename="post_placa.jpg")
-            
-            if local_img:
-                # Subimos la imagen definitiva (sea de IA o de respaldo local) a Dropbox
-                timestamp = int(time.time())
-                dropbox_img_url = upload_generated_image_to_dropbox(local_img, f"post_final_{timestamp}.jpg")
-                
-                if dropbox_img_url:
-                    print(f"Imagen lista en Dropbox. Publicando en Meta como IMAGEN...")
-                    publish_to_meta(dropbox_img_url, post_text, media_type="IMAGE")
-                else:
-                    print("Error al subir la imagen final a Dropbox.")
+            if dropbox_img_url:
+                print(f"Imagen lista en Dropbox. Publicando en Meta como IMAGEN...")
+                publish_to_meta(dropbox_img_url, post_text, media_type="IMAGE")
             else:
-                print("Error crítico: No se pudo obtener ni generar ninguna imagen para la publicación.")
+                print("Error al subir la imagen final a Dropbox.")
+        else:
+            print("Error crítico: No se pudo obtener ni generar ninguna imagen para la publicación.")
 
 if __name__ == "__main__":
     main()
