@@ -67,9 +67,9 @@ def generate_ai_image(image_prompt, output_filename="post_ia.jpg"):
     
     print(f"Generando imagen con IA usando Gemini Flash Image...")
     try:
-        # Usamos generate_content con la modalidad de imagen para la API de desarrolladores
+        # Usamos el modelo vigente gemini-3.8-flash compatible con la modalidad de imagen en la API de desarrolladores
         response = client.models.generate_content(
-            model='gemini-2.5-flash', # O modelo compatible con salida de imagen en AI Studio
+            model='gemini-3.8-flash',
             contents=f"Generate a professional square 1:1 image based on this description: {image_prompt}",
             config=types.GenerateContentConfig(
                 response_modalities=["TEXT", "IMAGE"]
