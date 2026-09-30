@@ -119,11 +119,16 @@ def main():
         
         if local_img:
             timestamp = int(time.time())
-            dropbox_img_url = upload_generated_image_to_dropbox(local_img, f"post_final_{timestamp}.jpg")
+            filename = f"post_final_{timestamp}.jpg"
+            dropbox_img_url = upload_generated_image_to_dropbox(local_img, filename)
             
             if dropbox_img_url:
                 print(f"Imagen lista en Dropbox. Publicando en Meta como IMAGEN...")
                 publish_to_meta(dropbox_img_url, post_text, media_type="IMAGE")
+                
+                # NUEVO: Movemos la imagen generada automáticamente al histórico tras publicarla con éxito
+                remote_path = f"/FrigZone-AutoQueue/imagenes-generadas/{filename}"
+                archive_published_image(remote_path, filename)
             else:
                 print("Error al subir la imagen final a Dropbox.")
         else:
