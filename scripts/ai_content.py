@@ -65,32 +65,37 @@ def generate_ai_image(image_prompt, output_filename="post_ia.jpg"):
     api_key = os.environ.get("GEMINI_API_KEY")
     client = genai.Client(api_key=api_key)
     
-    print(f"Generando imagen con IA usando Gemini Flash Image...")
-    try:
-        # Usamos el modelo vigente gemini-3.8-flash compatible con la modalidad de imagen en la API de desarrolladores
-        response = client.models.generate_content(
-            model='gemini-3.8-flash',
-            contents=f"Generate a professional square 1:1 image based on this description: {image_prompt}",
-            config=types.GenerateContentConfig(
-                response_modalities=["TEXT", "IMAGE"]
-            ),
-        )
-        
-        image_saved = False
-        for part in response.candidates[0].content.parts:
-            if part.inline_data is not None:
-                image_data = part.inline_data.data
+    print(f"Generando imagen con IA (Imagen 3)...")
+    
+    # Intentamos hasta 2 veces por si hay congestión temporal
+    for attempt in range(1, 3):
+        try:
+            result = client.models.generate_images(
+                model='imagen-3.0-generate-002',
+                prompt=image_prompt,
+                config=types.GenerateImagesConfig(
+                    number_of_images=1,
+                    output_mime_type="image/jpeg",
+                    aspect_ratio="1:1",
+                )
+            )
+            
+            for generated_image in result.generated_images:
+                image = generated_image.image.image_bytes
                 with open(output_filename, "wb") as f:
-                    f.write(image_data)
-                print(f"Imagen generada y guardada localmente como {output_filename}")
-                image_saved = True
-                break
-                
-        if image_saved:
+                    f.write(image)
+            
+            print(f"Imagen generada localmente como {output_filename}")
             return output_filename
-        else:
-            print("El modelo no devolvió datos binarios de imagen.")
-            return None
+            
+        except Exception as e:
+            print(f"Aviso al generar imagen (Intento {attempt}/2): {e}")
+            if attempt < 2:
+                print("Esperando 10 segundos para reintentar la imagen...")
+                time.sleep(10)
+                
+    print("No se pudo generar la imagen tras los reintentos.")
+    return None
             
     except Exception as e:
         print(f"Error al generar la imagen con Gemini: {e}")
