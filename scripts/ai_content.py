@@ -39,7 +39,7 @@ def generate_post_content():
         except Exception as e:
             print(f"Aviso en intento {attempt}: {e}")
             if attempt < max_retries:
-                print("Esperando 20 segundos para reintentar...")
+                print("Esperando 20 segundos para reintentar texto...")
                 time.sleep(20)
 
     if not response or not response.text:
@@ -65,38 +65,41 @@ def generate_ai_image(image_prompt, output_filename="post_ia.jpg"):
     api_key = os.environ.get("GEMINI_API_KEY")
     client = genai.Client(api_key=api_key)
     
-    print(f"Generando imagen con Gemini Image Preview...")
+    print(f"Iniciando renderizado de imagen con IA (esto puede tomar varios segundos)...")
     
-    for attempt in range(1, 3):
+    # Damos hasta 2 intentos con un tiempo de espera prudente
+    max_image_retries = 2
+    for attempt in range(1, max_image_retries + 1):
         try:
-            # Usamos el modelo nativo correcto para generación de imágenes en la API moderna
+            print(f"Enviando solicitud de imagen al servidor (Intento {attempt}/{max_image_retries})...")
+            
+            # Usamos el modelo oficial compatible con la API de imágenes
             response = client.models.generate_content(
-                model='gemini-3.1-flash-image-preview',
+                model='gemini-2.5-flash-image',
                 contents=f"Create a clean, professional, photorealistic 1:1 square image for this marketing post: {image_prompt}",
                 config=types.GenerateContentConfig(
-                    response_modalities=["IMAGE"],
-                    image_config=types.ImageConfig(
-                        aspect_ratio="1:1"
-                    )
+                    response_modalities=["TEXT", "IMAGE"],
                 ),
             )
             
-            # Buscamos los bytes de la imagen en la respuesta
-            for part in response.parts:
-                if part.inline_data is not None:
-                    image_data = part.inline_data.data
-                    with open(output_filename, "wb") as f:
-                        f.write(image_data)
-                    print(f"Imagen generada y guardada localmente como {output_filename}")
-                    return output_filename
-                    
-            print(f"Aviso: El modelo no devolvió datos de imagen en el intento {attempt}.")
+            # Verificamos si el servidor devolvió los datos binarios de la imagen
+            if response.candidates and response.candidates[0].content.parts:
+                for part in response.candidates[0].content.parts:
+                    if part.inline_data is not None:
+                        image_data = part.inline_data.data
+                        with open(output_filename, "wb") as f:
+                            f.write(image_data)
+                        print(f"¡Imagen generada y guardada exitosamente como {output_filename}!")
+                        return output_filename
+                        
+            print(f"El servidor respondió pero no entregó datos binarios de imagen en el intento {attempt}.")
             
         except Exception as e:
-            print(f"Aviso al generar imagen (Intento {attempt}/2): {e}")
-            if attempt < 2:
-                print("Esperando 10 segundos para reintentar...")
-                time.sleep(10)
+            print(f"Aviso en renderizado de imagen (Intento {attempt}): {e}")
+            
+        if attempt < max_image_retries:
+            print("El servidor está procesando los gráficos. Esperando 30 segundos antes del reintento...")
+            time.sleep(30)
                 
-    print("No se pudo generar la imagen tras los reintentos.")
+    print("No se pudo completar la generación de la imagen tras las esperas prolongadas.")
     return None
