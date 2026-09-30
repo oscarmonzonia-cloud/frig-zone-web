@@ -23,7 +23,6 @@ def generate_post_content():
     (Describe detalladamente en inglés una imagen limpia, moderna, fotorrealista y profesional relacionada con el consejo, ideal para Instagram/Facebook en formato cuadrado).
     """
 
-    # Reintentos seguros y espaciados para evitar saturar la API
     max_retries = 3
     response = None
 
@@ -40,11 +39,11 @@ def generate_post_content():
         except Exception as e:
             print(f"Aviso en intento {attempt}: {e}")
             if attempt < max_retries:
-                print("Esperando 25 segundos para que los servidores se liberen...")
-                time.sleep(25)
+                print("Esperando 20 segundos para reintentar...")
+                time.sleep(20)
 
     if not response or not response.text:
-        print("Error crítico: No se pudo obtener respuesta de Gemini tras varios reintentos espaciados.")
+        print("Error crítico: No se pudo obtener respuesta de Gemini.")
         return None, None
 
     try:
@@ -66,25 +65,33 @@ def generate_ai_image(image_prompt, output_filename="post_ia.jpg"):
     api_key = os.environ.get("GEMINI_API_KEY")
     client = genai.Client(api_key=api_key)
     
-    print(f"Generando imagen con IA usando el prompt: {image_prompt}")
+    print(f"Generando imagen con IA usando Gemini Flash Image...")
     try:
-        result = client.models.generate_images(
-            model='imagen-3.0-generate-002',
-            prompt=image_prompt,
-            config=types.GenerateImagesConfig(
-                number_of_images=1,
-                output_mime_type="image/jpeg",
-                aspect_ratio="1:1",
-            )
+        # Usamos generate_content con la modalidad de imagen para la API de desarrolladores
+        response = client.models.generate_content(
+            model='gemini-2.5-flash', # O modelo compatible con salida de imagen en AI Studio
+            contents=f"Generate a professional square 1:1 image based on this description: {image_prompt}",
+            config=types.GenerateContentConfig(
+                response_modalities=["TEXT", "IMAGE"]
+            ),
         )
         
-        for generated_image in result.generated_images:
-            image = generated_image.image.image_bytes
-            with open(output_filename, "wb") as f:
-                f.write(image)
-        
-        print(f"Imagen generada localmente como {output_filename}")
-        return output_filename
+        image_saved = False
+        for part in response.candidates[0].content.parts:
+            if part.inline_data is not None:
+                image_data = part.inline_data.data
+                with open(output_filename, "wb") as f:
+                    f.write(image_data)
+                print(f"Imagen generada y guardada localmente como {output_filename}")
+                image_saved = True
+                break
+                
+        if image_saved:
+            return output_filename
+        else:
+            print("El modelo no devolvió datos binarios de imagen.")
+            return None
+            
     except Exception as e:
-        print(f"Error al generar la imagen con IA: {e}")
+        print(f"Error al generar la imagen con Gemini: {e}")
         return None
