@@ -6,7 +6,7 @@ from dropbox_manager import (
     archive_published_video, 
     upload_generated_image_to_dropbox
 )
-from ai_content import generate_post_content, generate_ai_image
+from ai_content import generate_post_content, generate_ai_image, save_html_fallback
 
 def publish_to_meta(media_url, caption, media_type="VIDEO"):
     page_id = os.environ.get("META_PAGE_ID")
@@ -77,26 +77,46 @@ def main():
     
     if video_data:
         print(f"Video detectado en Dropbox: {video_data['name']}")
-        caption, _ = generate_post_content() # Usamos IA solo para redactar el copy del video
+        caption, _, _ = generate_post_content() # Adaptado para recibir (post_text, image_prompt, html_content)
         final_caption = caption or f"Trabajo técnico de FrigZone: {video_data['name']}"
         
         publish_to_meta(video_data['url'], final_caption, media_type="VIDEO")
         archive_published_video(video_data['path'], video_data['name'])
     else:
-        print("No hay videos en cola. Creando contenido automático con IA (Texto e Imagen)...")
-        post_text, image_prompt = generate_post_content()
+        print("No hay videos en cola. Creando contenido automático con IA (Texto, Imagen y Respaldo HTML)...")
+        post_text, image_prompt, html_content = generate_post_content()
         
-        if post_text and image_prompt:
-            # Generamos la imagen con el modelo Imagen de Google
-            local_img = generate_ai_image(image_prompt, output_filename="frigzone_ai.jpg")
+        if post_text:
+            # Intentamos generar la imagen con la IA visual
+            local_img = None
+            if image_prompt:
+                local_img = generate_ai_image(image_prompt, output_filename="frigzone_ai.jpg")
             
             if local_img:
-                # Subimos la imagen generada a Dropbox para respaldo y obtenemos link público
+                # Si la imagen se creó con éxito, la subimos a Dropbox y publicamos en Meta
                 timestamp = int(time.time())
                 dropbox_img_url = upload_generated_image_to_dropbox(local_img, f"post_ia_{timestamp}.jpg")
                 
-                print(f"Imagen subida a Dropbox. Publicando en Meta...")
-                publish_to_meta(dropbox_img_url, post_text, media_type="IMAGE")
+                if dropbox_img_url:
+                    print(f"Imagen subida a Dropbox. Publicando en Meta...")
+                    publish_to_meta(dropbox_img_url, post_text, media_type="IMAGE")
+                else:
+                    print("Error al subir la imagen generada a Dropbox.")
+            else:
+                print("⚠️ La IA visual no pudo generar la imagen (cuota o alta demanda).")
+                print("Activando respaldo inteligente: Guardando diseño HTML generado por Gemini...")
+                
+                html_file = save_html_fallback(html_content, output_filename="post_placa.html")
+                if html_file:
+                    # Subimos el HTML o registramos el respaldo para que la automatización no quede vacía
+                    timestamp = int(time.time())
+                    dropbox_html_url = upload_generated_image_to_dropbox(html_file, f"post_placa_{timestamp}.html")
+                    print(f"Placa HTML de respaldo respaldada en Dropbox. Contenido textual publicado como texto/enlace.")
+                    
+                    # Publicación de contingencia como texto con el copy generado
+                    publish_to_meta("", post_text, media_type="TEXT")
+                else:
+                    print("No se pudo generar el respaldo HTML alternativo.")
 
 if __name__ == "__main__":
     main()
