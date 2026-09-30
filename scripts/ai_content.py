@@ -65,41 +65,32 @@ def generate_ai_image(image_prompt, output_filename="post_ia.jpg"):
     api_key = os.environ.get("GEMINI_API_KEY")
     client = genai.Client(api_key=api_key)
     
-    print(f"Iniciando renderizado de imagen con IA (esto puede tomar varios segundos)...")
+    print(f"Iniciando solicitud de imagen al modelo oficial...")
     
-    # Damos hasta 2 intentos con un tiempo de espera prudente
-    max_image_retries = 2
-    for attempt in range(1, max_image_retries + 1):
-        try:
-            print(f"Enviando solicitud de imagen al servidor (Intento {attempt}/{max_image_retries})...")
-            
-            # Usamos el modelo oficial compatible con la API de imágenes
-            response = client.models.generate_content(
-                model='gemini-2.5-flash-image',
-                contents=f"Create a clean, professional, photorealistic 1:1 square image for this marketing post: {image_prompt}",
-                config=types.GenerateContentConfig(
-                    response_modalities=["TEXT", "IMAGE"],
-                ),
-            )
-            
-            # Verificamos si el servidor devolvió los datos binarios de la imagen
-            if response.candidates and response.candidates[0].content.parts:
-                for part in response.candidates[0].content.parts:
-                    if part.inline_data is not None:
-                        image_data = part.inline_data.data
-                        with open(output_filename, "wb") as f:
-                            f.write(image_data)
-                        print(f"¡Imagen generada y guardada exitosamente como {output_filename}!")
-                        return output_filename
-                        
-            print(f"El servidor respondió pero no entregó datos binarios de imagen en el intento {attempt}.")
-            
-        except Exception as e:
-            print(f"Aviso en renderizado de imagen (Intento {attempt}): {e}")
-            
-        if attempt < max_image_retries:
-            print("El servidor está procesando los gráficos. Esperando 30 segundos antes del reintento...")
-            time.sleep(30)
-                
-    print("No se pudo completar la generación de la imagen tras las esperas prolongadas.")
-    return None
+    try:
+        # Intentamos con el modelo oficial vigente para desarrolladores
+        response = client.models.generate_content(
+            model='gemini-3.1-flash-image',
+            contents=f"Create a clean, professional, photorealistic 1:1 square image for this marketing post: {image_prompt}",
+            config=types.GenerateContentConfig(
+                response_modalities=["IMAGE"],
+            ),
+        )
+        
+        if response.candidates and response.candidates[0].content.parts:
+            for part in response.candidates[0].content.parts:
+                if part.inline_data is not None:
+                    image_data = part.inline_data.data
+                    with open(output_filename, "wb") as f:
+                        f.write(image_data)
+                    print(f"¡Imagen generada y guardada exitosamente como {output_filename}!")
+                    return output_filename
+                    
+        print("Aviso: El modelo no devolvió datos binarios de imagen.")
+        return None
+        
+    except Exception as e:
+        print(f"⚠️ Aviso de cuota de la API de imágenes: {e}")
+        print("💡 Nota: El nivel gratuito actual de Google AI Studio tiene restricciones en la cuota de generación de imágenes por API.")
+        print("El flujo continuará operando para asegurar que la publicación de texto en redes y Dropbox no se detenga.")
+        return None
