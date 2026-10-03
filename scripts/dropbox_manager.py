@@ -2,9 +2,30 @@ import os
 import dropbox
 from dropbox.files import WriteMode
 
+def get_dbx_client():
+    """Crea una sesión de Dropbox utilizando Refresh Token para renovación automática o Token de acceso directo"""
+    app_key = os.environ.get("DROPBOX_APP_KEY")
+    app_secret = os.environ.get("DROPBOX_APP_SECRET")
+    refresh_token = os.environ.get("DROPBOX_REFRESH_TOKEN")
+    
+    # 1. Estrategia preferida: Refresh Token (Nunca expira)
+    if app_key and app_secret and refresh_token:
+        return dropbox.Dropbox(
+            oauth2_refresh_token=refresh_token,
+            app_key=app_key,
+            app_secret=app_secret
+        )
+    
+    # 2. Estrategia de respaldo: Access Token estático clásico
+    access_token = os.environ.get("DROPBOX_ACCESS_TOKEN")
+    if access_token:
+        return dropbox.Dropbox(access_token)
+        
+    raise ValueError("No se encontraron credenciales válidas de Dropbox en las variables de entorno (Configura DROPBOX_APP_KEY, DROPBOX_APP_SECRET y DROPBOX_REFRESH_TOKEN).")
+
 
 def upload_generated_image_to_dropbox(local_file_path, filename):
-    dbx = dropbox.Dropbox(os.environ.get("DROPBOX_ACCESS_TOKEN"))
+    dbx = get_dbx_client()
     dest_path = f"/FrigZone-AutoQueue/imagenes-generadas/{filename}"
     
     with open(local_file_path, "rb") as f:
@@ -25,11 +46,12 @@ def upload_generated_image_to_dropbox(local_file_path, filename):
     return direct_url
 
 def get_next_video_from_dropbox():
-    dbx_token = os.environ.get("DROPBOX_ACCESS_TOKEN")
-    if not dbx_token:
-        raise ValueError("No se encontró el DROPBOX_ACCESS_TOKEN en las variables de entorno.")
-    
-    dbx = dropbox.Dropbox(dbx_token)
+    try:
+        dbx = get_dbx_client()
+    except Exception as e:
+        print(f"Error al conectar con Dropbox (videos): {e}")
+        return None
+        
     folder_path = "/FrigZone-AutoQueue/videos-pendientes"
     
     try:
@@ -65,11 +87,11 @@ def get_next_video_from_dropbox():
 
 def get_next_image_from_dropbox():
     """Busca la siguiente imagen pendiente en la cola de Dropbox (FIFO)"""
-    dbx_token = os.environ.get("DROPBOX_ACCESS_TOKEN")
-    if not dbx_token:
+    try:
+        dbx = get_dbx_client()
+    except Exception:
         return None
-    
-    dbx = dropbox.Dropbox(dbx_token)
+        
     folder_path = "/FrigZone-AutoQueue/imagenes-pendientes"
     
     try:
@@ -106,7 +128,7 @@ def get_next_image_from_dropbox():
         return None
 
 def archive_published_video(file_path, file_name):
-    dbx = dropbox.Dropbox(os.environ.get("DROPBOX_ACCESS_TOKEN"))
+    dbx = get_dbx_client()
     destination_path = f"/FrigZone-History/{file_name}"
     try:
         dbx.files_move_v2(file_path, destination_path, autorename=True)
@@ -116,7 +138,7 @@ def archive_published_video(file_path, file_name):
 
 def archive_published_image(file_path, file_name):
     """Mueve la imagen publicada desde la cola al histórico"""
-    dbx = dropbox.Dropbox(os.environ.get("DROPBOX_ACCESS_TOKEN"))
+    dbx = get_dbx_client()
     destination_path = f"/FrigZone-History/{file_name}"
     try:
         dbx.files_move_v2(file_path, destination_path, autorename=True)
