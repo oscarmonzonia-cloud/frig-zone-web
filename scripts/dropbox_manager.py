@@ -3,11 +3,25 @@ import dropbox
 from dropbox.files import WriteMode
 
 def get_dbx_client():
-    """Crea una sesión de Dropbox utilizando un Access Token directo"""
+    """Crea una sesión de Dropbox utilizando Refresh Token para renovación automática o Token directo de respaldo"""
+    app_key = os.environ.get("DROPBOX_APP_KEY")
+    app_secret = os.environ.get("DROPBOX_APP_SECRET")
+    refresh_token = os.environ.get("DROPBOX_REFRESH_TOKEN")
+    
+    # 1. Método principal y recomendado: Refresh Token (Renovación automática perpetua)
+    if app_key and app_secret and refresh_token:
+        return dropbox.Dropbox(
+            oauth2_refresh_token=refresh_token,
+            app_key=app_key,
+            app_secret=app_secret
+        )
+    
+    # 2. Método de respaldo: Access Token estático
     access_token = os.environ.get("DROPBOX_ACCESS_TOKEN")
-    if not access_token:
-        raise ValueError("No se encontró el DROPBOX_ACCESS_TOKEN en las variables de entorno.")
-    return dropbox.Dropbox(access_token)
+    if access_token:
+        return dropbox.Dropbox(access_token)
+        
+    raise ValueError("No se encontraron credenciales válidas de Dropbox en las variables de entorno.")
 
 
 def upload_generated_image_to_dropbox(local_file_path, filename):
