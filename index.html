@@ -5,6 +5,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <!-- Redirección dinámica: envía a frigzone.com.ar solo si acceden desde github.io -->
+  <script>
+    if (window.location.hostname.includes("github.io")) {
+      window.location.replace("https://frigzone.com.ar" + window.location.pathname.replace(/^\/frig-zone-web/, "") + window.location.search);
+    }
+  </script>
+
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-C8XYWFV8DD"></script>
   <script>
@@ -30,11 +37,17 @@
     content="Instalación bajo normas IRAM, cámaras frigoríficas a medida, equipos comerciales, Multisplit, Piso techo y Cassette en CABA. Presupuesto sin cargo.">
   <meta property="og:type" content="website">
   <meta property="og:locale" content="es_AR">
-  <meta property="og:url" content="https://oscarmonzonia-cloud.github.io/frig-zone-web/">
-  <meta property="og:image" content="https://oscarmonzonia-cloud.github.io/frig-zone-web/logo.png">
+  <meta property="og:url" content="https://frigzone.com.ar/">
+  <meta property="og:image" content="https://frigzone.com.ar/logo.png">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Frig Zone | Refrigeración y Climatización CABA">
+  <meta name="twitter:description" content="Servicio técnico especializado bajo normas IRAM. Presupuestos sin cargo.">
+  <meta name="twitter:image" content="https://frigzone.com.ar/logo.png">
 
   <!-- Canonical URL -->
-  <link rel="canonical" href="https://oscarmonzonia-cloud.github.io/frig-zone-web/">
+  <link rel="canonical" href="https://frigzone.com.ar/">
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml"
@@ -76,6 +89,7 @@
     "@context": "https://schema.org",
     "@type": "HVACBusiness",
     "name": "Frig Zone Refrigeración, Climatización y Cámaras Frigoríficas",
+    "url": "https://frigzone.com.ar",
     "description": "Instalación, mantenimiento y reparación de equipos de refrigeración bajo normas IRAM. Cámaras frigoríficas a medida, equipos comerciales, Multisplit, Piso techo, Cassette y pre instalaciones en obras en CABA.",
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
@@ -89,7 +103,7 @@
         { "@type": "Offer", "itemOffered": { "@type": "Service", "name": "Pre Instalaciones en Obras" } }
       ]
     },
-    "image": "https://oscarmonzonia-cloud.github.io/frig-zone-web/logo.png",
+    "image": "https://frigzone.com.ar/logo.png",
     "telephone": "+5491173719821",
     "priceRange": "$$",
     "address": {
@@ -348,30 +362,37 @@
 
           <!-- Right Showcase Image Card -->
           <div class="lg:col-span-5 relative mt-8 lg:mt-0">
-            <div class="relative group rounded-3xl overflow-hidden border border-slate-700/80 bg-slate-900 shadow-2xl shadow-cyan-500/10">
-              <img src="data/img/camaradefrio2.png"
-                alt="Cámaras Frigoríficas a Medida bajo Norma IRAM - Frig Zone"
+            <div
+              class="relative group rounded-3xl overflow-hidden border border-slate-700/80 bg-slate-900 shadow-2xl shadow-cyan-500/10">
+              <img src="data/img/camaradefrio2.png" alt="Cámaras Frigoríficas a Medida bajo Norma IRAM - Frig Zone"
                 class="w-full h-96 sm:h-[460px] object-cover object-top group-hover:scale-105 transition-transform duration-500 cursor-pointer img-lightbox"
                 data-title="Cámaras Frigoríficas a Medida - Paneles & Evaporadores">
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/30 to-transparent pointer-events-none"></div>
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-slate-950/95 via-slate-950/30 to-transparent pointer-events-none">
+              </div>
 
               <!-- Floating Badges on Image -->
               <div class="absolute top-4 left-4 flex gap-2">
-                <span class="px-3 py-1 rounded-full bg-slate-900/90 backdrop-blur-md border border-accent/40 text-accent text-[11px] font-bold">
+                <span
+                  class="px-3 py-1 rounded-full bg-slate-900/90 backdrop-blur-md border border-accent/40 text-accent text-[11px] font-bold">
                   ❄️ -25°C a +10°C
                 </span>
-                <span class="px-3 py-1 rounded-full bg-slate-900/90 backdrop-blur-md border border-slate-700 text-slate-200 text-[11px] font-semibold">
+                <span
+                  class="px-3 py-1 rounded-full bg-slate-900/90 backdrop-blur-md border border-slate-700 text-slate-200 text-[11px] font-semibold">
                   Normas IRAM
                 </span>
               </div>
 
-              <div class="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-slate-900/90 backdrop-blur-md border border-slate-700/70">
+              <div
+                class="absolute bottom-4 left-4 right-4 p-4 rounded-2xl bg-slate-900/90 backdrop-blur-md border border-slate-700/70">
                 <div class="flex items-center justify-between">
                   <div>
-                    <span class="text-[10px] font-bold text-accent uppercase tracking-wider block">Ingeniería Frigorífica</span>
+                    <span class="text-[10px] font-bold text-accent uppercase tracking-wider block">Ingeniería
+                      Frigorífica</span>
                     <h3 class="text-sm font-bold text-white">Cámaras de Frío a Medida en CABA</h3>
                   </div>
-                  <span class="p-2.5 rounded-xl bg-accent/20 text-accent border border-accent/30 group-hover:bg-accent group-hover:text-slate-950 transition-colors">
+                  <span
+                    class="p-2.5 rounded-xl bg-accent/20 text-accent border border-accent/30 group-hover:bg-accent group-hover:text-slate-950 transition-colors">
                     <i data-lucide="zoom-in" class="w-4 h-4"></i>
                   </span>
                 </div>
@@ -474,10 +495,13 @@
         <div
           class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 border border-slate-700 rounded-3xl p-8 shadow-2xl grid lg:grid-cols-12 gap-8 items-center">
           <div class="lg:col-span-7">
-            <span class="text-xs uppercase tracking-widest text-accent font-bold mb-2 block">Equipamiento Comercial de Alta Gama</span>
+            <span class="text-xs uppercase tracking-widest text-accent font-bold mb-2 block">Equipamiento Comercial de
+              Alta Gama</span>
             <h3 class="text-2xl font-bold text-white mb-4">Cámaras Frigoríficas & Sistemas Industriales</h3>
             <p class="text-slate-300 text-sm leading-relaxed mb-6">
-              Montaje integral de cámaras de frío modulares con paneles de poliuretano inyectado de alta densidad, evaporadores de alto rendimiento y unidades condensadoras de última generación. Máxima conservación y ahorro energético.
+              Montaje integral de cámaras de frío modulares con paneles de poliuretano inyectado de alta densidad,
+              evaporadores de alto rendimiento y unidades condensadoras de última generación. Máxima conservación y
+              ahorro energético.
             </p>
             <div class="flex flex-wrap gap-4">
               <a href="#calc"
@@ -499,10 +523,12 @@
             </div>
           </div>
           <div class="lg:col-span-5 overflow-hidden rounded-2xl border border-slate-700 shadow-xl group relative">
-            <img src="data/img/refrigeracionindustrial.png" alt="Refrigeración Industrial y Equipamiento Comercial - Frig Zone"
+            <img src="data/img/refrigeracionindustrial.png"
+              alt="Refrigeración Industrial y Equipamiento Comercial - Frig Zone"
               class="w-full h-auto object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer img-lightbox"
               data-title="Refrigeración Industrial - Eficiencia y Rendimiento en Cada Proyecto">
-            <div class="absolute bottom-3 right-3 bg-slate-950/80 backdrop-blur-md px-3 py-1 rounded-lg text-[10px] text-accent font-semibold border border-slate-700 flex items-center gap-1 pointer-events-none">
+            <div
+              class="absolute bottom-3 right-3 bg-slate-950/80 backdrop-blur-md px-3 py-1 rounded-lg text-[10px] text-accent font-semibold border border-slate-700 flex items-center gap-1 pointer-events-none">
               <i data-lucide="zoom-in" class="w-3 h-3"></i> Clic para ampliar
             </div>
           </div>
@@ -527,7 +553,8 @@
               </div>
               <h3 class="text-2xl font-bold text-white mb-2 tracking-tight">¿Cuándo solicitar un service?</h3>
               <p class="text-xs text-slate-400 mb-6 leading-relaxed">
-                Identificá a tiempo las anomalías de rendimiento para evitar pérdidas de frío y averías mayores en el compresor.
+                Identificá a tiempo las anomalías de rendimiento para evitar pérdidas de frío y averías mayores en el
+                compresor.
               </p>
 
               <div class="space-y-4 mb-6">
@@ -537,7 +564,8 @@
                   </div>
                   <div>
                     <h4 class="text-xs font-bold text-white mb-0.5">Pérdida de Rendimiento / Pérdida de Frío</h4>
-                    <p class="text-[11px] text-slate-400 leading-snug">El equipo funciona continuamente sin alcanzar la temperatura deseada.</p>
+                    <p class="text-[11px] text-slate-400 leading-snug">El equipo funciona continuamente sin alcanzar la
+                      temperatura deseada.</p>
                   </div>
                 </div>
 
@@ -547,7 +575,8 @@
                   </div>
                   <div>
                     <h4 class="text-xs font-bold text-white mb-0.5">Goteo o Congelamiento Excesivo</h4>
-                    <p class="text-[11px] text-slate-400 leading-snug">Acumulación de hielo en serpentina o goteo continuo de agua en la unidad interior.</p>
+                    <p class="text-[11px] text-slate-400 leading-snug">Acumulación de hielo en serpentina o goteo
+                      continuo de agua en la unidad interior.</p>
                   </div>
                 </div>
 
@@ -557,13 +586,15 @@
                   </div>
                   <div>
                     <h4 class="text-xs font-bold text-white mb-0.5">Ruidos Extraños o Vibración</h4>
-                    <p class="text-[11px] text-slate-400 leading-snug">Golqueteos mecánicos en la unidad exterior o fallas de arranque en placas Inverter.</p>
+                    <p class="text-[11px] text-slate-400 leading-snug">Golqueteos mecánicos en la unidad exterior o
+                      fallas de arranque en placas Inverter.</p>
                   </div>
                 </div>
               </div>
             </div>
 
-            <div class="p-4 bg-slate-900/90 rounded-2xl border border-slate-700/80 text-xs text-slate-300 flex items-center justify-between gap-3">
+            <div
+              class="p-4 bg-slate-900/90 rounded-2xl border border-slate-700/80 text-xs text-slate-300 flex items-center justify-between gap-3">
               <div class="flex items-center gap-2">
                 <i data-lucide="clock" class="w-4 h-4 text-emerald-400 shrink-0"></i>
                 <span class="text-[11px]">Respuesta prioritaria en menos de 30 minutos</span>
@@ -752,7 +783,8 @@
                 alt="Instalación de Cámaras de Frío y Montaje en Obra - Frig Zone"
                 class="w-full h-80 object-cover object-top group-hover:scale-105 transition-transform duration-500 cursor-pointer img-lightbox"
                 data-title="Instalación de Cámaras de Frío con Respaldo Profesional">
-              <div class="absolute bottom-3 right-3 bg-slate-950/80 backdrop-blur-md px-3 py-1 rounded-lg text-[10px] text-accent font-semibold border border-slate-700 flex items-center gap-1 pointer-events-none">
+              <div
+                class="absolute bottom-3 right-3 bg-slate-950/80 backdrop-blur-md px-3 py-1 rounded-lg text-[10px] text-accent font-semibold border border-slate-700 flex items-center gap-1 pointer-events-none">
                 <i data-lucide="zoom-in" class="w-3 h-3"></i> Clic para ampliar
               </div>
             </div>
@@ -785,14 +817,17 @@
     <section id="galeria" class="py-20 bg-slate-950/40 border-t border-slate-800">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
         <div class="text-center max-w-2xl mx-auto mb-12">
-          <span class="text-xs uppercase tracking-widest text-accent font-bold mb-3 block">Evidencia Técnica & Obras</span>
-          <h2 class="text-3xl font-extrabold text-white tracking-tight">Galería de Instalaciones & Cámaras Frigoríficas</h2>
-          <p class="text-slate-400 text-sm mt-2">Fotografías reales de obras en marcha, equipamiento modular y montajes de precisión en CABA y alrededores.</p>
+          <span class="text-xs uppercase tracking-widest text-accent font-bold mb-3 block">Evidencia Técnica &
+            Obras</span>
+          <h2 class="text-3xl font-extrabold text-white tracking-tight">Galería de Instalaciones & Cámaras Frigoríficas
+          </h2>
+          <p class="text-slate-400 text-sm mt-2">Fotografías reales de obras en marcha, equipamiento modular y montajes
+            de precisión en CABA y alrededores.</p>
         </div>
 
         <!-- Organic Bento Box Grid -->
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6 auto-rows-[280px]">
-          
+
           <!-- Card 1 (Large - Spans 2 columns) -->
           <div
             class="md:col-span-2 bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-2xl hover:border-accent/50 transition-all flex flex-col group relative">
@@ -800,26 +835,34 @@
               <img src="data/img/camaradefrio2.png" alt="Cámara de Frío con Evaporador y Cortina de PVC - Frig Zone"
                 class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 cursor-pointer img-lightbox"
                 data-title="Cámaras de Frío a Medida - Paneles & Evaporadores">
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent pointer-events-none"></div>
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent pointer-events-none">
+              </div>
             </div>
-            
+
             <div class="absolute top-4 left-4 z-10">
-              <span class="bg-slate-950/80 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-bold text-accent border border-slate-700 shadow-lg">
+              <span
+                class="bg-slate-950/80 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-bold text-accent border border-slate-700 shadow-lg">
                 Media & Baja Temp
               </span>
             </div>
 
-            <div class="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none z-10">
-              <span class="px-4 py-2 rounded-full bg-slate-900/90 text-accent font-bold text-xs border border-accent/40 shadow-2xl flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-all">
+            <div
+              class="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none z-10">
+              <span
+                class="px-4 py-2 rounded-full bg-slate-900/90 text-accent font-bold text-xs border border-accent/40 shadow-2xl flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-all">
                 <i data-lucide="zoom-in" class="w-4 h-4"></i> Ampliar HD
               </span>
             </div>
-            
+
             <div class="relative z-10 p-6 mt-auto">
               <h4 class="text-xl font-bold text-white mb-2">Cámaras de Frío a Medida</h4>
-              <p class="text-slate-300 text-xs leading-relaxed max-w-md mb-4">Paneles aislantes de alta densidad, cortinas térmicas de PVC y evaporadores suspendidos de alto rendimiento.</p>
-              <div class="pt-4 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400">
-                <span class="flex items-center gap-1.5"><i data-lucide="check-circle" class="w-3.5 h-3.5 text-emerald-400"></i> Norma IRAM</span>
+              <p class="text-slate-300 text-xs leading-relaxed max-w-md mb-4">Paneles aislantes de alta densidad,
+                cortinas térmicas de PVC y evaporadores suspendidos de alto rendimiento.</p>
+              <div
+                class="pt-4 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400">
+                <span class="flex items-center gap-1.5"><i data-lucide="check-circle"
+                    class="w-3.5 h-3.5 text-emerald-400"></i> Norma IRAM</span>
                 <span class="text-accent font-semibold flex items-center gap-1 cursor-pointer hover:text-cyan-300">
                   <i data-lucide="maximize-2" class="w-3 h-3"></i> Detalle
                 </span>
@@ -834,26 +877,34 @@
               <img src="data/img/camarasdefrio.png" alt="Soluciones en Refrigeración de Cámaras - Frig Zone"
                 class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 cursor-pointer img-lightbox"
                 data-title="Cámaras Frigoríficas - Seguridad Alimentaria & Eficiencia">
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent pointer-events-none"></div>
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/30 to-transparent pointer-events-none">
+              </div>
             </div>
-            
+
             <div class="absolute top-4 left-4 z-10">
-              <span class="bg-slate-950/80 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-bold text-emerald-400 border border-slate-700 shadow-lg">
+              <span
+                class="bg-slate-950/80 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-bold text-emerald-400 border border-slate-700 shadow-lg">
                 Seguridad Alimentaria
               </span>
             </div>
 
-            <div class="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none z-10">
-              <span class="px-4 py-2 rounded-full bg-slate-900/90 text-accent font-bold text-xs border border-accent/40 shadow-2xl flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-all">
+            <div
+              class="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none z-10">
+              <span
+                class="px-4 py-2 rounded-full bg-slate-900/90 text-accent font-bold text-xs border border-accent/40 shadow-2xl flex items-center gap-2 transform translate-y-4 group-hover:translate-y-0 transition-all">
                 <i data-lucide="zoom-in" class="w-4 h-4"></i> Ampliar
               </span>
             </div>
-            
+
             <div class="relative z-10 p-6 mt-auto">
               <h4 class="text-lg font-bold text-white mb-2">Conservación de Productos</h4>
-              <p class="text-slate-300 text-xs leading-relaxed mb-4">Temperaturas estables y rigurosas para carnicerías, lácteos, congelados y depósitos comerciales de alta exigencia.</p>
-              <div class="pt-4 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400">
-                <span class="flex items-center gap-1.5"><i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400"></i> Eficiencia A+</span>
+              <p class="text-slate-300 text-xs leading-relaxed mb-4">Temperaturas estables y rigurosas para carnicerías,
+                lácteos, congelados y depósitos comerciales de alta exigencia.</p>
+              <div
+                class="pt-4 border-t border-slate-700/60 flex items-center justify-between text-[11px] text-slate-400">
+                <span class="flex items-center gap-1.5"><i data-lucide="zap" class="w-3.5 h-3.5 text-amber-400"></i>
+                  Eficiencia A+</span>
               </div>
             </div>
           </div>
@@ -866,24 +917,30 @@
                 alt="Refrigeración Industrial y Montaje Profesional - Frig Zone"
                 class="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700 cursor-pointer img-lightbox"
                 data-title="Sistemas de Refrigeración Industrial & Racks">
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent pointer-events-none"></div>
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent pointer-events-none">
+              </div>
             </div>
-            
+
             <div class="absolute top-4 left-4 z-10">
-              <span class="bg-slate-950/80 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-bold text-amber-400 border border-slate-700 shadow-lg">
+              <span
+                class="bg-slate-950/80 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-bold text-amber-400 border border-slate-700 shadow-lg">
                 Montaje Industrial
               </span>
             </div>
 
-            <div class="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none z-10">
-              <span class="px-3 py-1.5 rounded-full bg-slate-900/90 text-accent font-bold text-xs border border-accent/40 shadow-lg flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-all">
+            <div
+              class="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none z-10">
+              <span
+                class="px-3 py-1.5 rounded-full bg-slate-900/90 text-accent font-bold text-xs border border-accent/40 shadow-lg flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-all">
                 <i data-lucide="zoom-in" class="w-3.5 h-3.5"></i> Ver Obra
               </span>
             </div>
-            
+
             <div class="relative z-10 p-5 mt-auto">
               <h4 class="text-sm font-bold text-white mb-1">Centrales de Frío</h4>
-              <p class="text-slate-300 text-xs leading-relaxed line-clamp-2">Prueba de estanqueidad con nitrógeno y vacío asistido.</p>
+              <p class="text-slate-300 text-xs leading-relaxed line-clamp-2">Prueba de estanqueidad con nitrógeno y
+                vacío asistido.</p>
             </div>
           </div>
 
@@ -891,27 +948,34 @@
           <div
             class="md:col-span-1 bg-slate-900 border border-slate-800 rounded-3xl overflow-hidden shadow-lg hover:border-accent/50 transition-all flex flex-col group relative">
             <div class="absolute inset-0">
-              <img src="data/img/camaradefrioistalaciontodopais.png" alt="Instalación de Cámaras en Todo el País - Frig Zone"
+              <img src="data/img/camaradefrioistalaciontodopais.png"
+                alt="Instalación de Cámaras en Todo el País - Frig Zone"
                 class="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-700 cursor-pointer img-lightbox"
                 data-title="Montaje y Equipamiento de Cámaras Frigoríficas">
-              <div class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent pointer-events-none"></div>
+              <div
+                class="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent pointer-events-none">
+              </div>
             </div>
-            
+
             <div class="absolute top-4 left-4 z-10">
-              <span class="bg-slate-950/80 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-bold text-cyan-400 border border-slate-700 shadow-lg">
+              <span
+                class="bg-slate-950/80 backdrop-blur-md px-3 py-1.5 rounded-full text-[10px] font-bold text-cyan-400 border border-slate-700 shadow-lg">
                 Logística
               </span>
             </div>
 
-            <div class="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none z-10">
-              <span class="px-3 py-1.5 rounded-full bg-slate-900/90 text-accent font-bold text-xs border border-accent/40 shadow-lg flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-all">
+            <div
+              class="absolute inset-0 bg-slate-950/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none z-10">
+              <span
+                class="px-3 py-1.5 rounded-full bg-slate-900/90 text-accent font-bold text-xs border border-accent/40 shadow-lg flex items-center gap-1.5 transform translate-y-2 group-hover:translate-y-0 transition-all">
                 <i data-lucide="zoom-in" class="w-3.5 h-3.5"></i> Ver Obra
               </span>
             </div>
-            
+
             <div class="relative z-10 p-5 mt-auto">
               <h4 class="text-sm font-bold text-white mb-1">Depósitos Gran Escala</h4>
-              <p class="text-slate-300 text-xs leading-relaxed line-clamp-2">Infraestructura comercial con unidades remotas.</p>
+              <p class="text-slate-300 text-xs leading-relaxed line-clamp-2">Infraestructura comercial con unidades
+                remotas.</p>
             </div>
           </div>
 
@@ -923,24 +987,31 @@
     <section id="guias" class="py-20 bg-slate-950/80 border-t border-slate-800">
       <div class="max-w-6xl mx-auto px-4 sm:px-6">
         <div class="text-center max-w-2xl mx-auto mb-14">
-          <span class="text-xs uppercase tracking-widest text-accent font-bold mb-3 block">Recursos & Fichas Técnicas</span>
+          <span class="text-xs uppercase tracking-widest text-accent font-bold mb-3 block">Recursos & Fichas
+            Técnicas</span>
           <h2 class="text-3xl font-extrabold text-white tracking-tight">Guías Visuales & Infografías Técnicas</h2>
-          <p class="text-slate-400 text-sm mt-2">Material explicativo descargable y fichas de producto para clientes y encargados de mantenimiento. Hacé clic en cualquier lámina para ver en alta resolución.</p>
+          <p class="text-slate-400 text-sm mt-2">Material explicativo descargable y fichas de producto para clientes y
+            encargados de mantenimiento. Hacé clic en cualquier lámina para ver en alta resolución.</p>
         </div>
 
         <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
           <!-- Infografía 1: 3 Señales de Alerta -->
-          <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl hover:border-accent/60 transition-all flex flex-col justify-between group">
+          <div
+            class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl hover:border-accent/60 transition-all flex flex-col justify-between group">
             <div class="relative overflow-hidden bg-slate-950 aspect-[2/3]">
-              <img src="data/img/senalescamarafrigorificanosirve.png" alt="3 Señales de Alerta en Cámaras Frigoríficas - Frig Zone"
+              <img src="data/img/senalescamarafrigorificanosirve.png"
+                alt="3 Señales de Alerta en Cámaras Frigoríficas - Frig Zone"
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer img-lightbox"
                 data-title="Infografía: 3 Señales de Alerta en Cámaras Frigoríficas">
-              <span class="absolute top-3 left-3 bg-slate-950/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-[10px] font-bold text-amber-400 border border-amber-500/40">
+              <span
+                class="absolute top-3 left-3 bg-slate-950/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-[10px] font-bold text-amber-400 border border-amber-500/40">
                 Alerta Preventiva
               </span>
-              <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                <span class="px-3.5 py-2 rounded-full bg-slate-900/90 text-accent font-bold text-xs border border-accent/40 shadow-xl flex items-center gap-1.5">
+              <div
+                class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                <span
+                  class="px-3.5 py-2 rounded-full bg-slate-900/90 text-accent font-bold text-xs border border-accent/40 shadow-xl flex items-center gap-1.5">
                   <i data-lucide="maximize-2" class="w-4 h-4"></i> Ampliar Lámina
                 </span>
               </div>
@@ -948,7 +1019,8 @@
             <div class="p-5 flex-1 flex flex-col justify-between">
               <div>
                 <h4 class="text-sm font-bold text-white mb-1.5">3 Señales de Alerta Técnica</h4>
-                <p class="text-slate-400 text-xs leading-relaxed mb-4">Puntos clave para detectar pérdidas de frío, consumo excesivo y fallas en compresores.</p>
+                <p class="text-slate-400 text-xs leading-relaxed mb-4">Puntos clave para detectar pérdidas de frío,
+                  consumo excesivo y fallas en compresores.</p>
               </div>
               <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
                 <span class="text-slate-400 text-[11px]">Guía de Mantenimiento</span>
@@ -962,16 +1034,20 @@
           </div>
 
           <!-- Infografía 2: Los Tres Pilares -->
-          <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl hover:border-accent/60 transition-all flex flex-col justify-between group">
+          <div
+            class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl hover:border-accent/60 transition-all flex flex-col justify-between group">
             <div class="relative overflow-hidden bg-slate-950 aspect-[2/3]">
               <img src="data/img/trespilaresdefriocamaras.png" alt="Los Tres Pilares de Frío Cámaras - Frig Zone"
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer img-lightbox"
                 data-title="Infografía: Los Tres Pilares de Calidad en Frío Cámaras">
-              <span class="absolute top-3 left-3 bg-slate-950/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-[10px] font-bold text-emerald-400 border border-emerald-500/40">
+              <span
+                class="absolute top-3 left-3 bg-slate-950/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-[10px] font-bold text-emerald-400 border border-emerald-500/40">
                 Norma de Montaje
               </span>
-              <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                <span class="px-3.5 py-2 rounded-full bg-slate-900/90 text-accent font-bold text-xs border border-accent/40 shadow-xl flex items-center gap-1.5">
+              <div
+                class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                <span
+                  class="px-3.5 py-2 rounded-full bg-slate-900/90 text-accent font-bold text-xs border border-accent/40 shadow-xl flex items-center gap-1.5">
                   <i data-lucide="maximize-2" class="w-4 h-4"></i> Ampliar Lámina
                 </span>
               </div>
@@ -979,7 +1055,8 @@
             <div class="p-5 flex-1 flex flex-col justify-between">
               <div>
                 <h4 class="text-sm font-bold text-white mb-1.5">Los Tres Pilares del Frío</h4>
-                <p class="text-slate-400 text-xs leading-relaxed mb-4">Eficiencia energética, calidad en paneles aislantes y confianza técnica garantizada.</p>
+                <p class="text-slate-400 text-xs leading-relaxed mb-4">Eficiencia energética, calidad en paneles
+                  aislantes y confianza técnica garantizada.</p>
               </div>
               <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
                 <span class="text-slate-400 text-[11px]">Estándar IRAM</span>
@@ -993,16 +1070,20 @@
           </div>
 
           <!-- Infografía 3: Catálogo Comercial de Cámaras -->
-          <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl hover:border-accent/60 transition-all flex flex-col justify-between group">
+          <div
+            class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl hover:border-accent/60 transition-all flex flex-col justify-between group">
             <div class="relative overflow-hidden bg-slate-950 aspect-[2/3]">
               <img src="data/img/equipamientoyrefrigeracion.png" alt="Catálogo de Equipamiento Comercial - Frig Zone"
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer img-lightbox"
                 data-title="Catálogo de Equipamiento Comercial y Tipologías de Cámaras">
-              <span class="absolute top-3 left-3 bg-slate-950/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-[10px] font-bold text-purple-400 border border-purple-500/40">
+              <span
+                class="absolute top-3 left-3 bg-slate-950/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-[10px] font-bold text-purple-400 border border-purple-500/40">
                 Catálogo Comercial
               </span>
-              <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                <span class="px-3.5 py-2 rounded-full bg-slate-900/90 text-accent font-bold text-xs border border-accent/40 shadow-xl flex items-center gap-1.5">
+              <div
+                class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                <span
+                  class="px-3.5 py-2 rounded-full bg-slate-900/90 text-accent font-bold text-xs border border-accent/40 shadow-xl flex items-center gap-1.5">
                   <i data-lucide="maximize-2" class="w-4 h-4"></i> Ampliar Lámina
                 </span>
               </div>
@@ -1010,7 +1091,8 @@
             <div class="p-5 flex-1 flex flex-col justify-between">
               <div>
                 <h4 class="text-sm font-bold text-white mb-1.5">Catálogo de Cámaras de Frío</h4>
-                <p class="text-slate-400 text-xs leading-relaxed mb-4">Medidas estándar, potencias de motocompresor y opciones modulares con instalación.</p>
+                <p class="text-slate-400 text-xs leading-relaxed mb-4">Medidas estándar, potencias de motocompresor y
+                  opciones modulares con instalación.</p>
               </div>
               <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
                 <span class="text-slate-400 text-[11px]">Modelos & Dimensiones</span>
@@ -1024,16 +1106,20 @@
           </div>
 
           <!-- Infografía 4: Infraestructura y Cadena de Frío -->
-          <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl hover:border-accent/60 transition-all flex flex-col justify-between group">
+          <div
+            class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden shadow-xl hover:border-accent/60 transition-all flex flex-col justify-between group">
             <div class="relative overflow-hidden bg-slate-950 aspect-[2/3]">
               <img src="data/img/imagengenerica.png" alt="Infraestructura Frigorífica e Industrial - Frig Zone"
                 class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 cursor-pointer img-lightbox"
                 data-title="Infraestructura Frigorífica e Instalaciones Integrales">
-              <span class="absolute top-3 left-3 bg-slate-950/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-[10px] font-bold text-cyan-400 border border-cyan-500/40">
+              <span
+                class="absolute top-3 left-3 bg-slate-950/90 backdrop-blur-md px-2.5 py-1 rounded-lg text-[10px] font-bold text-cyan-400 border border-cyan-500/40">
                 Infraestructura
               </span>
-              <div class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                <span class="px-3.5 py-2 rounded-full bg-slate-900/90 text-accent font-bold text-xs border border-accent/40 shadow-xl flex items-center gap-1.5">
+              <div
+                class="absolute inset-0 bg-slate-950/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
+                <span
+                  class="px-3.5 py-2 rounded-full bg-slate-900/90 text-accent font-bold text-xs border border-accent/40 shadow-xl flex items-center gap-1.5">
                   <i data-lucide="maximize-2" class="w-4 h-4"></i> Ampliar Lámina
                 </span>
               </div>
@@ -1041,7 +1127,8 @@
             <div class="p-5 flex-1 flex flex-col justify-between">
               <div>
                 <h4 class="text-sm font-bold text-white mb-1.5">Infraestructura Integral</h4>
-                <p class="text-slate-400 text-xs leading-relaxed mb-4">Montaje de depósitos, salas de elaboración refrigeradas y automatización de procesos.</p>
+                <p class="text-slate-400 text-xs leading-relaxed mb-4">Montaje de depósitos, salas de elaboración
+                  refrigeradas y automatización de procesos.</p>
               </div>
               <div class="pt-3 border-t border-slate-800 flex items-center justify-between text-xs">
                 <span class="text-slate-400 text-[11px]">Obras a Escala</span>
@@ -1334,25 +1421,25 @@
     </div>
   </div>
 
-    <!-- Botón Flotante de WhatsApp -->
-    <a id="floatingWhatsappBtn"
-      href="https://wa.me/5491173719821?text=Hola%20Frig%20Zone,%20te%20contacto%20desde%20la%20página%20web"
-      target="_blank" rel="noopener noreferrer"
-      class="fixed bottom-6 right-6 z-40 bg-emerald-500 hover:bg-emerald-400 text-white p-4 rounded-full shadow-2xl shadow-emerald-500/40 hover:scale-110 transition-all flex items-center justify-center"
-      aria-label="Contacto por WhatsApp">
-      <i data-lucide="message-circle" class="w-7 h-7"></i>
-    </a>
+  <!-- Botón Flotante de WhatsApp -->
+  <a id="floatingWhatsappBtn"
+    href="https://wa.me/5491173719821?text=Hola%20Frig%20Zone,%20te%20contacto%20desde%20la%20página%20web"
+    target="_blank" rel="noopener noreferrer"
+    class="fixed bottom-6 right-6 z-40 bg-emerald-500 hover:bg-emerald-400 text-white p-4 rounded-full shadow-2xl shadow-emerald-500/40 hover:scale-110 transition-all flex items-center justify-center"
+    aria-label="Contacto por WhatsApp">
+    <i data-lucide="message-circle" class="w-7 h-7"></i>
+  </a>
 
-    <!-- Botón Chatbot IA -->
-    <button id="chatToggleBtn"
-      class="fixed bottom-6 left-6 z-40 bg-brand-600 hover:bg-brand-500 text-white p-3.5 rounded-full shadow-2xl shadow-cyan-500/30 hover:scale-105 transition-all flex items-center gap-2"
-      aria-label="Abrir asistente técnico con IA">
-      <i data-lucide="bot" class="w-6 h-6"></i>
-      <span class="text-xs font-bold hidden sm:inline pr-1">Diagnóstico IA</span>
-    </button>
+  <!-- Botón Chatbot IA -->
+  <button id="chatToggleBtn"
+    class="fixed bottom-6 left-6 z-40 bg-brand-600 hover:bg-brand-500 text-white p-3.5 rounded-full shadow-2xl shadow-cyan-500/30 hover:scale-105 transition-all flex items-center gap-2"
+    aria-label="Abrir asistente técnico con IA">
+    <i data-lucide="bot" class="w-6 h-6"></i>
+    <span class="text-xs font-bold hidden sm:inline pr-1">Diagnóstico IA</span>
+  </button>
 
-    <!-- Lógica Interactiva Externa -->
-    <script src="js/app.js"></script>
+  <!-- Lógica Interactiva Externa -->
+  <script src="js/app.js"></script>
 </body>
 
 </html>
