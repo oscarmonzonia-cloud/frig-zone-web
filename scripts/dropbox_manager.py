@@ -3,11 +3,11 @@ import dropbox
 from dropbox.files import WriteMode
 
 def get_dbx_client():
-    """Crea una sesión de Dropbox utilizando un Access Token directo"""
+    """Crea una sesión de Dropbox utilizando un Access Token directo de forma limpia"""
     access_token = os.environ.get("DROPBOX_ACCESS_TOKEN")
     if not access_token:
         raise ValueError("No se encontró el DROPBOX_ACCESS_TOKEN en las variables de entorno.")
-    return dropbox.Dropbox(access_token)
+    return dropbox.Dropbox(access_token, desktop=False)
 
 
 def upload_generated_image_to_dropbox(local_file_path, filename):
