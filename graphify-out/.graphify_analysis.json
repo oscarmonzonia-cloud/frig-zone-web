@@ -1,0 +1,337 @@
+{
+  "communities": {
+    "0": [
+      "datetime",
+      "jarvis_brain",
+      "jarvis_brain_rationale_1",
+      "jarvis_config",
+      "jarvis_config_find_audio_device",
+      "jarvis_config_rationale_1",
+      "jarvis_setup_openclaw",
+      "jarvis_system_tools",
+      "jarvis_system_tools_control_volume",
+      "jarvis_system_tools_delegate_to_openclaw",
+      "jarvis_system_tools_get_system_status",
+      "jarvis_system_tools_get_time_and_date",
+      "jarvis_system_tools_open_application",
+      "jarvis_system_tools_rationale_1",
+      "jarvis_system_tools_rationale_100",
+      "jarvis_system_tools_rationale_120",
+      "jarvis_system_tools_rationale_22",
+      "jarvis_system_tools_rationale_31",
+      "jarvis_system_tools_rationale_48",
+      "jarvis_system_tools_rationale_83",
+      "jarvis_system_tools_search_web",
+      "json",
+      "os",
+      "pathlib",
+      "psutil",
+      "requests",
+      "subprocess",
+      "webbrowser"
+    ],
+    "1": [
+      "jarvis_tts_engine",
+      "jarvis_tts_engine_clean_text_for_speech",
+      "jarvis_tts_engine_get_real_output_devices",
+      "jarvis_tts_engine_get_sapi_engine",
+      "jarvis_tts_engine_rationale_1",
+      "jarvis_tts_engine_rationale_105",
+      "jarvis_tts_engine_rationale_139",
+      "jarvis_tts_engine_rationale_15",
+      "jarvis_tts_engine_rationale_167",
+      "jarvis_tts_engine_rationale_179",
+      "jarvis_tts_engine_rationale_29",
+      "jarvis_tts_engine_rationale_40",
+      "jarvis_tts_engine_rationale_90",
+      "jarvis_tts_engine_split_into_sentences",
+      "jarvis_tts_engine_ttsengine",
+      "jarvis_tts_engine_ttsengine_init",
+      "jarvis_tts_engine_ttsengine_set_output_device",
+      "jarvis_tts_engine_ttsengine_speak",
+      "jarvis_tts_engine_ttsengine_speak_gtts_sounddevice",
+      "jarvis_tts_engine_ttsengine_speak_pygame_fallback",
+      "jarvis_tts_engine_ttsengine_speak_sapi5",
+      "jarvis_tts_engine_ttsengine_stop",
+      "jarvis_tts_engine_ttsengine_test_tone",
+      "re",
+      "soundfile",
+      "threading"
+    ],
+    "2": [
+      "dropbox",
+      "dropbox_files",
+      "google",
+      "google_genai",
+      "pil",
+      "scripts_ai_content",
+      "scripts_ai_content_create_fallback_image",
+      "scripts_ai_content_generate_ai_image",
+      "scripts_ai_content_generate_post_content",
+      "scripts_ai_content_rationale_105",
+      "scripts_dropbox_manager",
+      "scripts_dropbox_manager_archive_published_image",
+      "scripts_dropbox_manager_archive_published_video",
+      "scripts_dropbox_manager_get_dbx_client",
+      "scripts_dropbox_manager_get_next_image_from_dropbox",
+      "scripts_dropbox_manager_get_next_video_from_dropbox",
+      "scripts_dropbox_manager_rationale_140",
+      "scripts_dropbox_manager_rationale_6",
+      "scripts_dropbox_manager_rationale_89",
+      "scripts_dropbox_manager_upload_generated_image_to_dropbox",
+      "scripts_main",
+      "scripts_main_main",
+      "scripts_main_publish_to_meta",
+      "time"
+    ],
+    "3": [
+      "github_workflows_publisher",
+      "github_workflows_publisher_env_dropbox_access_token",
+      "github_workflows_publisher_env_dropbox_app_key",
+      "github_workflows_publisher_env_dropbox_app_secret",
+      "github_workflows_publisher_env_dropbox_refresh_token",
+      "github_workflows_publisher_env_gemini_api_key",
+      "github_workflows_publisher_env_meta_access_token",
+      "github_workflows_publisher_env_meta_ig_account_id",
+      "github_workflows_publisher_env_meta_page_id",
+      "github_workflows_publisher_jobs",
+      "github_workflows_publisher_jobs_run_publisher",
+      "github_workflows_publisher_name",
+      "github_workflows_publisher_on",
+      "github_workflows_publisher_on_schedule",
+      "github_workflows_publisher_on_workflow_dispatch",
+      "github_workflows_publisher_run_publisher_runs_on",
+      "github_workflows_publisher_run_publisher_steps",
+      "github_workflows_publisher_schedule_cron",
+      "github_workflows_publisher_steps_env",
+      "github_workflows_publisher_steps_name",
+      "github_workflows_publisher_steps_run",
+      "github_workflows_publisher_steps_uses",
+      "github_workflows_publisher_steps_with",
+      "github_workflows_publisher_with_python_version"
+    ],
+    "4": [
+      "jarvis_jarvis",
+      "jarvis_jarvis_clean_wake_word",
+      "jarvis_jarvis_contains_wake_word",
+      "jarvis_jarvis_rationale_1",
+      "jarvis_jarvis_rationale_27",
+      "jarvis_jarvis_render_banner",
+      "jarvis_jarvis_run_jarvis",
+      "jarvis_stt_engine",
+      "jarvis_stt_engine_get_real_microphones",
+      "jarvis_stt_engine_rationale_1",
+      "jarvis_stt_engine_sttengine",
+      "jarvis_stt_engine_sttengine_calibrate",
+      "jarvis_stt_engine_sttengine_get_device_name",
+      "jarvis_stt_engine_sttengine_init",
+      "jarvis_stt_engine_sttengine_listen",
+      "jarvis_stt_engine_sttengine_listen_whisper",
+      "jarvis_stt_engine_sttengine_play_sound_alert",
+      "jarvis_tts_engine_ttsengine_get_output_device_name",
+      "rich",
+      "rich_console",
+      "rich_panel",
+      "rich_table",
+      "rich_text",
+      "winsound"
+    ],
+    "5": [
+      "gtts",
+      "jarvis_calibrador",
+      "jarvis_calibrador_main",
+      "jarvis_calibrador_rationale_1",
+      "jarvis_calibrador_rationale_18",
+      "jarvis_calibrador_rationale_49",
+      "jarvis_calibrador_test_microphone_meter",
+      "jarvis_calibrador_test_microphone_meter_callback",
+      "jarvis_calibrador_test_output_voice",
+      "jarvis_check_devices",
+      "jarvis_diag",
+      "jarvis_test_google",
+      "numpy",
+      "sounddevice",
+      "speech_recognition",
+      "sys",
+      "tempfile"
+    ],
+    "6": [
+      "jarvis_brain_jarvisbrain",
+      "jarvis_brain_jarvisbrain_get_current_model_info",
+      "jarvis_brain_jarvisbrain_init",
+      "jarvis_brain_jarvisbrain_process_command",
+      "jarvis_brain_jarvisbrain_query_gemini",
+      "jarvis_brain_jarvisbrain_query_ollama",
+      "jarvis_brain_jarvisbrain_set_provider",
+      "jarvis_brain_jarvisbrain_warmup_ollama",
+      "jarvis_brain_rationale_123",
+      "jarvis_brain_rationale_159",
+      "jarvis_brain_rationale_30",
+      "jarvis_brain_rationale_48",
+      "jarvis_brain_rationale_60",
+      "jarvis_jarvis_rationale_59",
+      "jarvis_jarvis_select_model_interactive"
+    ],
+    "7": [
+      "js_app",
+      "js_app_initfrigzoneapp",
+      "js_app_initfrigzoneapp_appendmessage"
+    ]
+  },
+  "cohesion": {
+    "0": 0.08465608465608465,
+    "1": 0.09846153846153846,
+    "2": 0.18115942028985507,
+    "3": 0.08333333333333333,
+    "4": 0.13043478260869565,
+    "5": 0.15441176470588236,
+    "6": 0.20952380952380953,
+    "7": 0.6666666666666666
+  },
+  "gods": [
+    {
+      "id": "jarvis_jarvis_run_jarvis",
+      "label": "run_jarvis()",
+      "degree": 15
+    },
+    {
+      "id": "jarvis_tts_engine_ttsengine",
+      "label": "TTSEngine",
+      "degree": 13
+    },
+    {
+      "id": "jarvis_brain_jarvisbrain",
+      "label": "JarvisBrain",
+      "degree": 12
+    },
+    {
+      "id": "scripts_main_main",
+      "label": "main()",
+      "degree": 11
+    },
+    {
+      "id": "jarvis_stt_engine_sttengine",
+      "label": "STTEngine",
+      "degree": 10
+    },
+    {
+      "id": "jarvis_jarvis_render_banner",
+      "label": "render_banner()",
+      "degree": 9
+    },
+    {
+      "id": "github_workflows_publisher_steps_env",
+      "label": "env",
+      "degree": 9
+    },
+    {
+      "id": "scripts_dropbox_manager_get_dbx_client",
+      "label": "get_dbx_client()",
+      "degree": 8
+    },
+    {
+      "id": "github_workflows_publisher_run_publisher_steps",
+      "label": "steps",
+      "degree": 6
+    },
+    {
+      "id": "scripts_dropbox_manager_archive_published_image",
+      "label": "archive_published_image()",
+      "degree": 5
+    }
+  ],
+  "surprises": [
+    {
+      "source": "render_banner()",
+      "target": "TTSEngine",
+      "source_files": [
+        "jarvis/jarvis.py",
+        "jarvis/tts_engine.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; bridges separate communities"
+    },
+    {
+      "source": "render_banner()",
+      "target": "JarvisBrain",
+      "source_files": [
+        "jarvis/jarvis.py",
+        "jarvis/brain.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source; bridges separate communities"
+    },
+    {
+      "source": "run_jarvis()",
+      "target": "TTSEngine",
+      "source_files": [
+        "jarvis/jarvis.py",
+        "jarvis/tts_engine.py"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    },
+    {
+      "source": "render_banner()",
+      "target": "STTEngine",
+      "source_files": [
+        "jarvis/jarvis.py",
+        "jarvis/stt_engine.py"
+      ],
+      "confidence": "INFERRED",
+      "relation": "uses",
+      "why": "inferred connection - not explicitly stated in source"
+    },
+    {
+      "source": "run_jarvis()",
+      "target": "JarvisBrain",
+      "source_files": [
+        "jarvis/jarvis.py",
+        "jarvis/brain.py"
+      ],
+      "confidence": "EXTRACTED",
+      "relation": "calls",
+      "why": "bridges separate communities"
+    }
+  ],
+  "questions": [
+    {
+      "type": "bridge_node",
+      "question": "Why does `TTSEngine` connect `tts_engine.py` to `jarvis.py`?",
+      "why": "High betweenness centrality (0.112) - this node is a cross-community bridge."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 6 inferred relationships involving `run_jarvis()` (e.g. with `.get_current_model_info()` and `.process_command()`) actually correct?",
+      "why": "`run_jarvis()` has 6 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `system_tools.py` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.08465608465608465 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `JarvisBrain` connect `JarvisBrain` to `system_tools.py`, `jarvis.py`?",
+      "why": "High betweenness centrality (0.082) - this node is a cross-community bridge."
+    },
+    {
+      "type": "verify_inferred",
+      "question": "Are the 2 inferred relationships involving `JarvisBrain` (e.g. with `render_banner()` and `select_model_interactive()`) actually correct?",
+      "why": "`JarvisBrain` has 2 INFERRED edges - model-reasoned connections that need verification."
+    },
+    {
+      "type": "low_cohesion",
+      "question": "Should `tts_engine.py` be split into smaller, more focused modules?",
+      "why": "Cohesion score 0.09846153846153846 - nodes in this community are weakly interconnected."
+    },
+    {
+      "type": "bridge_node",
+      "question": "Why does `run_jarvis()` connect `jarvis.py` to `tts_engine.py`, `main.py`, `JarvisBrain`?",
+      "why": "High betweenness centrality (0.081) - this node is a cross-community bridge."
+    }
+  ]
+}

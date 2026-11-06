@@ -1,0 +1,98 @@
+{
+  ".github/workflows/publisher.yml": {
+    "mtime": 1791047981.1687226,
+    "seen": 1793141221.183708,
+    "ast_hash": "4e1e3c843d1f5f9247de22eb8393c9bd",
+    "semantic_hash": "4e1e3c843d1f5f9247de22eb8393c9bd"
+  },
+  "jarvis/brain.py": {
+    "mtime": 1792023500.072934,
+    "seen": 1793141221.183708,
+    "ast_hash": "e508a086899eaa12a9f78afd8225e688",
+    "semantic_hash": "e508a086899eaa12a9f78afd8225e688"
+  },
+  "jarvis/calibrador.py": {
+    "mtime": 1791871563.7227695,
+    "seen": 1793141221.183708,
+    "ast_hash": "5ca328fe5b96c2a8ffe956cc69281652",
+    "semantic_hash": "5ca328fe5b96c2a8ffe956cc69281652"
+  },
+  "jarvis/check_devices.py": {
+    "mtime": 1791872502.6834056,
+    "seen": 1793141221.183708,
+    "ast_hash": "729bdf9d028a711f3d1423ff2d8a3e8b",
+    "semantic_hash": "729bdf9d028a711f3d1423ff2d8a3e8b"
+  },
+  "jarvis/config.py": {
+    "mtime": 1792024818.9597569,
+    "seen": 1793141221.183708,
+    "ast_hash": "16941717d4005574552d85cd205bdde8",
+    "semantic_hash": "16941717d4005574552d85cd205bdde8"
+  },
+  "jarvis/diag.py": {
+    "mtime": 1791871483.630758,
+    "seen": 1793141221.183708,
+    "ast_hash": "519f7625f1453640140a72000f2745a5",
+    "semantic_hash": "519f7625f1453640140a72000f2745a5"
+  },
+  "jarvis/jarvis.py": {
+    "mtime": 1792023513.536783,
+    "seen": 1793141221.183708,
+    "ast_hash": "d05c878490a79124defa02823c0fae53",
+    "semantic_hash": "d05c878490a79124defa02823c0fae53"
+  },
+  "jarvis/setup_openclaw.py": {
+    "mtime": 1792021320.3622875,
+    "seen": 1793141221.183708,
+    "ast_hash": "37ed33c0d4d40d9b6c8c967f2518260c",
+    "semantic_hash": "37ed33c0d4d40d9b6c8c967f2518260c"
+  },
+  "jarvis/stt_engine.py": {
+    "mtime": 1792021682.93486,
+    "seen": 1793141221.183708,
+    "ast_hash": "0ac983ce6befe2fbadd73f430ca6ca04",
+    "semantic_hash": "0ac983ce6befe2fbadd73f430ca6ca04"
+  },
+  "jarvis/system_tools.py": {
+    "mtime": 1792021795.5986414,
+    "seen": 1793141221.183708,
+    "ast_hash": "9406cd3409a4f222f98ff5d88064b670",
+    "semantic_hash": "9406cd3409a4f222f98ff5d88064b670"
+  },
+  "jarvis/test_google.py": {
+    "mtime": 1791871507.023422,
+    "seen": 1793141221.183708,
+    "ast_hash": "17ea6e8d1352be4f97f4d67f0f12ac06",
+    "semantic_hash": "17ea6e8d1352be4f97f4d67f0f12ac06"
+  },
+  "jarvis/tts_engine.py": {
+    "mtime": 1792021748.6105332,
+    "seen": 1793141221.183708,
+    "ast_hash": "e9a3ca4a47c7cf064c994af326d9ede1",
+    "semantic_hash": "e9a3ca4a47c7cf064c994af326d9ede1"
+  },
+  "js/app.js": {
+    "mtime": 1790696169.4118178,
+    "seen": 1793141221.183708,
+    "ast_hash": "049422900e98895d23fbba6d1335df1c",
+    "semantic_hash": "049422900e98895d23fbba6d1335df1c"
+  },
+  "scripts/ai_content.py": {
+    "mtime": 1791482158.0532641,
+    "seen": 1793141221.183708,
+    "ast_hash": "8ed257aeb1f413464a58bd63465e6fa0",
+    "semantic_hash": "8ed257aeb1f413464a58bd63465e6fa0"
+  },
+  "scripts/dropbox_manager.py": {
+    "mtime": 1791484047.1026514,
+    "seen": 1793141221.183708,
+    "ast_hash": "1e4d9f57a54c7dc6de2624b8f992c14f",
+    "semantic_hash": "1e4d9f57a54c7dc6de2624b8f992c14f"
+  },
+  "scripts/main.py": {
+    "mtime": 1790804939.7971408,
+    "seen": 1793141221.183708,
+    "ast_hash": "31fb13ab21d208d4cbbd56f105af8c3e",
+    "semantic_hash": "31fb13ab21d208d4cbbd56f105af8c3e"
+  }
+}
